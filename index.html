@@ -893,17 +893,12 @@ function saveTF(){
   });
   closeModal();
 }
-function openWithdrawModal(){ renderWD('',''); }
-
-function renderWD(amt,notes){
+function openWithdrawModal(){
   const m=metrics();
   const wds=(state.withdrawals||[]);
   const total=wds.reduce((s,w)=>s+(Number(w.amount)||0),0);
   const sorted=[...wds].sort((a,b)=>new Date(b.date)-new Date(a.date));
-  const n=Number(amt)||0;
-  const proj=m.cashBal-n;
   const today=toISO(new Date());
-
   const hist=sorted.length===0
     ?'<div class="empty-msg" style="padding:12px">No withdrawals recorded yet.</div>'
     :`<div class="wd-scroll">${sorted.map(w=>`
@@ -917,22 +912,18 @@ function renderWD(amt,notes){
         </div>
         <button class="btn-icon del" onclick="delWD('${w.id}')"></button>
       </div>`).join('')}</div>`;
-
   openModal(`
     <h3>&darr; Withdraw Cash</h3>
     <p class="modal-sub">Record a cash withdrawal. This reduces your cash balance but does not affect trading P&amp;L or sprint progress.</p>
-
-    <div class="mono-box">
+    <div class="mono-box" id="wd-preview">
       <div class="mono-row"><span style="color:#64748b">Current Cash</span><span class="c-teal">${USD2(m.cashBal)}</span></div>
-      <div class="mono-row"><span style="color:#64748b">- Withdrawal</span><span class="c-red">${n>0?USD2(n):'&mdash;'}</span></div>
-      <div class="mono-row total"><span>= New Cash Balance</span><span class="${proj<0?'c-red':'c-gold'} bold">${USD2(proj)}</span></div>
-      ${proj<0?'<div style="font-size:11px;color:rgba(248,113,113,.8);margin-top:8px">[!] Withdrawal exceeds available cash</div>':''}
+      <div class="mono-row"><span style="color:#64748b">- Withdrawal</span><span class="c-red">&mdash;</span></div>
+      <div class="mono-row total"><span>= New Cash Balance</span><span class="c-gold bold">${USD2(m.cashBal)}</span></div>
     </div>
-
     <div class="form-grid" style="margin-bottom:20px">
       <div class="fg">
         <label class="f-label">Amount (USD) *</label>
-        <input class="f-input" type="number" step="0.01" value="${amt}" id="wd-amt" placeholder="200.00" oninput="renderWD(this.value,document.getElementById('wd-notes')?.value||'')" />
+        <input class="f-input" type="number" step="0.01" id="wd-amt" placeholder="200.00" oninput="updateWDPreview()" />
       </div>
       <div class="fg">
         <label class="f-label">Date *</label>
@@ -940,14 +931,12 @@ function renderWD(amt,notes){
       </div>
       <div class="fg full">
         <label class="f-label">Notes (optional)</label>
-        <input class="f-input" type="text" value="${e(notes)}" id="wd-notes" placeholder="e.g., Weekend cash" />
+        <input class="f-input" type="text" id="wd-notes" placeholder="e.g., Weekend cash" />
       </div>
       <div class="fg full">
-        <button class="btn" style="width:100%;justify-content:center;background:rgba(239,68,68,.1);color:#fca5a5;border-color:rgba(239,68,68,.3)"
-          onclick="addWD()" ${!n?'disabled':''}>&darr; Record Withdrawal</button>
+        <button class="btn" id="wd-btn" style="width:100%;justify-content:center;background:rgba(239,68,68,.1);color:#fca5a5;border-color:rgba(239,68,68,.3)" onclick="addWD()" disabled>&darr; Record Withdrawal</button>
       </div>
     </div>
-
     <div>
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
         <span class="f-label">Withdrawal History</span>
@@ -955,10 +944,28 @@ function renderWD(amt,notes){
       </div>
       ${hist}
     </div>
-
     <div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal()">Close</button></div>
   `);
 }
+
+function updateWDPreview(){
+  const m=metrics();
+  const n=Number(document.getElementById('wd-amt')?.value)||0;
+  const proj=m.cashBal-n;
+  const preview=document.getElementById('wd-preview');
+  const btn=document.getElementById('wd-btn');
+  if(preview){
+    preview.innerHTML=`
+      <div class="mono-row"><span style="color:#64748b">Current Cash</span><span class="c-teal">${USD2(m.cashBal)}</span></div>
+      <div class="mono-row"><span style="color:#64748b">- Withdrawal</span><span class="c-red">${n>0?USD2(n):'&mdash;'}</span></div>
+      <div class="mono-row total"><span>= New Cash Balance</span><span class="${proj<0?'c-red':'c-gold'} bold">${USD2(proj)}</span></div>
+      ${proj<0?'<div style="font-size:11px;color:rgba(248,113,113,.8);margin-top:8px">[!] Withdrawal exceeds available cash</div>':''}
+    `;
+  }
+  if(btn) btn.disabled=!n;
+}
+
+function renderWD(amt,notes){ openWithdrawModal(); }
 
 function addWD(){
   const amt=Number(document.getElementById('wd-amt')?.value)||0;
