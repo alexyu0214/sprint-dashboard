@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "120 Day Sprint",
+  "schemaVersion": 1,
+  "description": "120-Day Trading Sprint dashboard for Casting Capital. Tracks trades, P&L, win rate, trajectory to $30K target, and cumulative growth chart. Data persists in localStorage across sessions. Includes trade form, withdrawal tracking, reconcile tool, export/import, and AI performance analyst powered by window.cowork.askClaude."
+}
+</script>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>120-Day Sprint Â· Casting Capital</title>
+  <style>:root{color-scheme:dark}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}body{background:#020617;color:#f1f5f9;font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,sans-serif;font-size:14px;line-height:1.5;min-height:100vh;padding:16px}.dashboard{max-width:1280px;margin:0 auto}.header{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px;border-bottom:1px solid #1e293b;padding-bottom:20px;margin-bottom:24px}.header-brand{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:#2dd4bf;font-weight:500;margin-bottom:4px}.header h1{font-size:26px;font-weight:600;color:#f8fafc}.header-sub{font-size:13px;color:#64748b;margin-top:4px}.badge{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:999px;border:1px solid;font-size:13px;font-weight:500}.badge.ahead{background:rgba(52,211,153,.15);color:#6ee7b7;border-color:rgba(52,211,153,.4)}.badge.ontrack{background:rgba(45,212,191,.15);color:#5eead4;border-color:rgba(45,212,191,.4)}.badge.behind{background:rgba(248,113,113,.15);color:#fca5a5;border-color:rgba(248,113,113,.4)}.badge.neutral{background:#1e293b;color:#94a3b8;border-color:#334155}.config-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}@media(max-width:640px){.config-row{grid-template-columns:1fr}}.config-field{background:rgba(15,23,42,.6);border:1px solid #1e293b;border-radius:12px;padding:12px}.config-field label{display:block;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#475569;margin-bottom:4px}.config-field input{background:transparent;border:none;outline:none;color:#f1f5f9;font-size:18px;font-weight:500;width:100%;font-family:inherit}.summary-row{background:linear-gradient(135deg,rgba(15,23,42,.8),rgba(15,23,42,.4));border:1px solid #1e293b;border-radius:12px;padding:20px;margin-bottom:16px}.summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}@media(max-width:768px){.summary-grid{grid-template-columns:repeat(2,1fr)}}.s-label{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}.s-label-text{display:flex;align-items:center;gap:4px;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#475569}.s-value{font-size:20px;font-weight:600}.s-value.big{font-size:22px;font-weight:700}.s-sub{font-size:10px;color:#475569;margin-top:4px}.btn-withdraw{display:flex;align-items:center;gap:3px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(253,164,175,.8);background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);border-radius:999px;padding:2px 8px;cursor:pointer;font-family:inherit}.btn-withdraw:hover{background:rgba(239,68,68,.2);color:#fca5a5}.metric-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:16px}@media(max-width:1024px){.metric-grid{grid-template-columns:repeat(3,1fr)}}@media(max-width:640px){.metric-grid{grid-template-columns:repeat(2,1fr)}}.metric-card{background:rgba(15,23,42,.6);border:1px solid #1e293b;border-radius:12px;padding:12px}.metric-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}.m-label{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#475569}.m-value{font-size:17px;font-weight:600}.m-sub{font-size:10px;color:#475569;margin-top:2px}.traj-panel{background:linear-gradient(135deg,rgba(15,23,42,.8),rgba(15,23,42,.4));border:1px solid #1e293b;border-radius:12px;padding:20px;margin-bottom:24px}.traj-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}@media(max-width:768px){.traj-grid{grid-template-columns:repeat(2,1fr)}}.t-label{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#475569;margin-bottom:4px}.t-value{font-size:20px;font-weight:600}.t-sub{font-size:11px;color:#475569;margin-top:4px}.progress-track{height:8px;background:#1e293b;border-radius:999px;overflow:hidden}.progress-fill{height:100%;background:linear-gradient(to right,#14b8a6,#f59e0b);border-radius:999px;transition:width .3s}.section{background:rgba(15,23,42,.6);border:1px solid #1e293b;border-radius:12px;padding:20px;margin-bottom:24px}.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}.section-title{font-size:17px;font-weight:500;color:#f1f5f9}.section-hint{font-size:13px;color:#64748b}.chart-wrap{height:256px}.ledger-subhead{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:10px;margin-bottom:12px}.ledger-subhead.open-border{border-bottom:1px solid rgba(45,212,191,.2)}.ledger-subhead.hist-border{border-bottom:1px solid rgba(245,158,11,.2)}.ledger-left{display:flex;align-items:center;gap:8px}.ledger-tag{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.15em}.ledger-tag.open{color:#5eead4}.ledger-tag.hist{color:#fcd34d}.ledger-count{font-size:12px;color:#475569}.ledger-stats{display:flex;align-items:center;gap:12px;font-size:12px;font-family:ui-monospace,monospace;color:#475569;flex-wrap:wrap}.ledger-stats .dot{color:#1e293b}.mt-8{margin-top:32px}.tbl-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:13px}th{text-align:left;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#475569;font-weight:500;padding:8px 10px 8px 0;border-bottom:1px solid #1e293b;white-space:nowrap}th.r{text-align:right}td{padding:10px 10px 10px 0;border-bottom:1px solid rgba(30,41,59,.5);vertical-align:middle}td.r{text-align:right}tr.open-tr td{background:rgba(45,212,191,.02)}tr.open-tr:hover td{background:rgba(45,212,191,.06)}tr:not(.open-tr):hover td{background:rgba(30,41,59,.4)}.empty-msg{text-align:center;color:#475569;padding:24px;font-style:italic;font-size:13px}.pill{font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:2px 8px;border-radius:999px;border:1px solid;white-space:nowrap;display:inline-block}.pill-shares{background:rgba(45,212,191,.1);color:#5eead4;border-color:rgba(45,212,191,.3)}.pill-call{background:rgba(52,211,153,.1);color:#6ee7b7;border-color:rgba(52,211,153,.3)}.pill-put{background:rgba(248,113,113,.1);color:#fca5a5;border-color:rgba(248,113,113,.3)}.pill-open{background:rgba(45,212,191,.15);color:#5eead4;border-color:rgba(45,212,191,.3)}.pill-closed{background:rgba(100,116,139,.4);color:#cbd5e1;border-color:#475569}.pill-hist{background:rgba(245,158,11,.1);color:#fcd34d;border-color:rgba(245,158,11,.3)}.btn{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:8px;border:1px solid;font-size:13px;cursor:pointer;transition:all .15s;font-family:inherit}.btn-teal{background:rgba(45,212,191,.1);color:#5eead4;border-color:rgba(45,212,191,.3)}.btn-teal:hover{background:rgba(45,212,191,.2)}.btn-primary{background:#14b8a6;color:#020617;border-color:#14b8a6;font-weight:500}.btn-primary:hover{background:#2dd4bf}.btn-primary:disabled{background:#1e293b;color:#475569;border-color:#1e293b;cursor:not-allowed}.btn-ghost{background:transparent;color:#64748b;border-color:transparent}.btn-ghost:hover{color:#cbd5e1}.btn-icon{background:transparent;border:none;color:#475569;cursor:pointer;padding:3px;border-radius:4px;display:inline-flex;align-items:center;font-size:14px;line-height:1}.btn-icon.edit:hover{color:#5eead4}.btn-icon.del:hover{color:#f87171}.ai-modes{display:flex;gap:8px;margin-bottom:12px}.mode-btn{padding:6px 12px;border-radius:8px;border:1px solid;font-size:13px;cursor:pointer;font-family:inherit;transition:all .15s}.mode-btn.on{background:rgba(45,212,191,.2);color:#a5f3fc;border-color:rgba(45,212,191,.4)}.mode-btn.off{background:rgba(30,41,59,.5);color:#64748b;border-color:#334155}.mode-btn.off:hover{background:#1e293b}textarea.ai-ta{width:100%;background:#020617;border:1px solid #334155;border-radius:8px;padding:12px;font-size:13px;color:#f1f5f9;font-family:inherit;min-height:90px;resize:vertical;outline:none;transition:border-color .15s}textarea.ai-ta:focus{border-color:#14b8a6}textarea.ai-ta::placeholder{color:#475569}.ai-footer{display:flex;align-items:center;justify-content:space-between;margin-top:12px;flex-wrap:wrap;gap:8px}.ai-ctx{font-size:12px;color:#475569}.ai-out{margin-top:16px;background:rgba(2,6,23,.7);border:1px solid #1e293b;border-radius:8px;padding:16px;font-size:13px;color:#e2e8f0;white-space:pre-wrap;line-height:1.6;display:none}.dash-footer{text-align:center;font-size:12px;color:#334155;padding:24px 0}.footer-links{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:8px}.footer-link{font-size:10px;letter-spacing:.15em;text-transform:uppercase;background:none;border:none;cursor:pointer;font-family:inherit;color:#334155;transition:color .15s}.footer-link.rec:hover{color:rgba(251,191,36,.8)}.footer-link.exp:hover{color:rgba(45,212,191,.8)}.overlay{position:fixed;inset:0;background:rgba(2,6,23,.8);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:16px;z-index:50;display:none}.overlay.open{display:flex}.modal-box{background:#0f172a;border:1px solid #334155;border-radius:12px;max-width:700px;width:100%;max-height:90vh;overflow-y:auto;padding:24px}.modal-box h3{font-size:17px;font-weight:500;margin-bottom:8px}.modal-sub{font-size:13px;color:#94a3b8;margin-bottom:20px;line-height:1.5}.modal-footer{display:flex;justify-content:flex-end;gap:8px;margin-top:20px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.fg{display:flex;flex-direction:column;gap:4px}.fg.full{grid-column:span 2}.f-label{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#475569}.f-input,.f-select{width:100%;background:#020617;border:1px solid #334155;border-radius:8px;padding:8px 10px;font-size:13px;color:#f1f5f9;font-family:inherit;outline:none;transition:border-color .15s}.f-input:focus,.f-select:focus{border-color:#14b8a6}.f-input:disabled{border-color:rgba(45,212,191,.3);color:rgba(45,212,191,.7);cursor:not-allowed}.f-select option{background:#0f172a}.cap-preview{font-size:12px;color:#475569;grid-column:span 2;margin-top:-4px}.cap-preview strong{color:#2dd4bf;font-family:ui-monospace,monospace}.status-btns{display:flex;gap:8px;flex-wrap:wrap}.s-btn{padding:6px 12px;border-radius:8px;border:1px solid;font-size:13px;cursor:pointer;font-family:inherit;transition:all .15s}.s-btn.on{background:rgba(45,212,191,.2);color:#a5f3fc;border-color:rgba(45,212,191,.4)}.s-btn.off{background:#1e293b;color:#64748b;border-color:#334155}.s-btn.off:hover{background:#334155}.derive-link{font-size:12px;color:#5eead4;background:none;border:none;cursor:pointer;text-decoration:underline;text-underline-offset:2px;font-family:inherit;padding:0}.derive-link:hover{color:#a5f3fc}.strat-hint{font-size:11px;color:#475569;margin-top:6px}.mono-box{background:rgba(2,6,23,.7);border:1px solid #1e293b;border-radius:8px;padding:16px;margin-bottom:20px;font-family:ui-monospace,monospace;font-size:13px}.mono-row{display:flex;justify-content:space-between;margin-bottom:6px}.mono-row.total{border-top:1px solid #1e293b;padding-top:8px;margin-bottom:0;font-weight:600}.preview-item,.wd-item{display:flex;align-items:center;justify-content:space-between;background:rgba(2,6,23,.5);border:1px solid #1e293b;border-radius:8px;padding:8px 12px;margin-bottom:6px}.wd-scroll{max-height:192px;overflow-y:auto}.export-ta{width:100%;background:#020617;border:1px solid #334155;border-radius:8px;padding:12px;font-size:11px;color:#94a3b8;font-family:ui-monospace,monospace;min-height:280px;resize:vertical;outline:none}.spin{display:inline-block;width:14px;height:14px;border:2px solid rgba(45,212,191,.3);border-top-color:#2dd4bf;border-radius:50%;animation:spin .7s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.c-teal{color:#2dd4bf}.c-green{color:#34d399}.c-red{color:#f87171}.c-gold{color:#fbbf24}.c-slate{color:#94a3b8}.mono{font-family:ui-monospace,monospace}.bold{font-weight:600}</style>
+</head>
+<body>
+<div id="mobile-banner" style="display:none;background:#f59e0b;color:#000;text-align:center;padding:10px 16px;font-size:13px;font-weight:500;border-radius:8px;margin-bottom:16px;">
+  ðŸ“± This dashboard is optimised for the Cowork desktop app. Some features (AI Analyst) won't work on mobile.
+</div>
+<script>
+  if(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)){
+    document.getElementById('mobile-banner').style.display='block';
+  }
+</script>
+
+<div class="dashboard">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div>
+      <div class="header-brand">Casting Capital</div>
+      <h1>120-Day Trading Sprint</h1>
+      <p class="header-sub">Performance Analyst Â· Auto-Saved Ledger Â· Manual Options Pricing</p>
+    </div>
+    <div id="traj-badge" class="badge neutral">â³ Awaiting Data</div>
+  </header>
+
+  <!-- CONFIG -->
+  <div class="config-row">
+    <div class="config-field">
+      <label>Starting Capital (USD)</label>
+      <input type="number" id="cfg-capital" />
+    </div>
+    <div class="config-field">
+      <label>Sprint Start Date</label>
+      <input type="date" id="cfg-start" />
+    </div>
+    <div class="config-field">
+      <label>Target (USD)</label>
+      <input type="number" id="cfg-target" />
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary-row">
+    <div class="summary-grid">
+      <div>
+        <div class="s-label">
+          <span class="s-label-text">ðŸ’³ Cash Balance</span>
+          <button class="btn-withdraw" onclick="openWithdrawModal()">â†“ Withdraw</button>
+        </div>
+        <div class="s-value c-teal" id="s-cash">$0.00</div>
+        <div class="s-sub" id="s-cash-sub">Start + Realized âˆ’ Capital in Open</div>
+      </div>
+      <div>
+        <div class="s-label-text" style="margin-bottom:4px">ðŸ’¼ Open Positions (MV)</div>
+        <div class="s-value c-teal" id="s-mv">$0.00</div>
+        <div class="s-sub" id="s-mv-sub">0 open</div>
+      </div>
+      <div>
+        <div class="s-label-text" style="margin-bottom:4px">ðŸ“Š Unrealized P&amp;L</div>
+        <div class="s-value" id="s-unreal">$0.00</div>
+        <div class="s-sub">MV âˆ’ Capital in Open</div>
+      </div>
+      <div>
+        <div class="s-label-text" style="margin-bottom:4px">ðŸ’° Account Value</div>
+        <div class="s-value big c-gold" id="s-acct">$0.00</div>
+        <div class="s-sub">Cash + Open MV</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- METRIC CARDS -->
+  <div class="metric-grid" id="metric-grid"></div>
+
+  <!-- TRAJECTORY -->
+  <div class="traj-panel">
+    <div class="traj-grid">
+      <div>
+        <div class="t-label">Required / Trading Day</div>
+        <div class="t-value c-gold" id="t-daily">$0.00</div>
+        <div class="t-sub" id="t-daily-sub">sessions remaining</div>
+      </div>
+      <div>
+        <div class="t-label">Required Daily Compound</div>
+        <div class="t-value c-gold" id="t-compound">0.0%</div>
+        <div class="t-sub">On current account value</div>
+      </div>
+      <div>
+        <div class="t-label">Projected Final</div>
+        <div class="t-value" id="t-projected">$0</div>
+        <div class="t-sub">At current realized pace</div>
+      </div>
+      <div>
+        <div class="t-label" style="margin-bottom:8px">Sprint Progress</div>
+        <div class="progress-track"><div class="progress-fill" id="t-bar" style="width:0%"></div></div>
+        <div class="t-sub" id="t-pct">0% of 120 trading days elapsed</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHART -->
+  <div class="section">
+    <div class="section-header">
+      <h2 class="section-title">Cumulative Growth</h2>
+      <span class="section-hint" id="chart-target-label">Target: $30,000</span>
+    </div>
+    <div class="chart-wrap"><canvas id="growthChart"></canvas></div>
+  </div>
+
+  <!-- LEDGER -->
+  <div class="section">
+    <div class="section-header">
+      <h2 class="section-title">Live Ledger</h2>
+      <button class="btn btn-teal" onclick="openTradeForm(null)">+ New Trade</button>
+    </div>
+
+    <!-- Open Positions -->
+    <div>
+      <div class="ledger-subhead open-border">
+        <div class="ledger-left">
+          <span>ðŸ’¼</span>
+          <span class="ledger-tag open">Open Positions</span>
+          <span class="ledger-count" id="open-count">0 positions</span>
+        </div>
+        <div class="ledger-stats" id="open-stats"></div>
+      </div>
+      <div id="open-table"></div>
+    </div>
+
+    <!-- Historical Trades -->
+    <div class="mt-8">
+      <div class="ledger-subhead hist-border">
+        <div class="ledger-left">
+          <span>âœ…</span>
+          <span class="ledger-tag hist">Historical Trades</span>
+          <span class="ledger-count" id="hist-count">0 closed</span>
+        </div>
+        <div class="ledger-stats" id="hist-stats"></div>
+      </div>
+      <div id="hist-table"></div>
+    </div>
+  </div>
+
+  <!-- AI -->
+  <div class="section">
+    <div class="section-header" style="margin-bottom:12px">
+      <h2 class="section-title">âœ¨ AI Performance Analyst</h2>
+    </div>
+    <div class="ai-modes">
+      <button class="mode-btn on"  id="mode-idea"   onclick="setAiMode('idea')">Trade Idea Analysis</button>
+      <button class="mode-btn off" id="mode-review" onclick="setAiMode('review')">Performance Review</button>
+    </div>
+    <textarea class="ai-ta" id="ai-input" placeholder="e.g., Considering NVDA calls â€” earnings in 2 weeks, IV elevated. Options entry range and sizing?"></textarea>
+    <div class="ai-footer">
+      <span class="ai-ctx" id="ai-ctx">Context: 0 closed Â· 0 open Â· $0.00 Â· Day 0/120</span>
+      <button class="btn btn-primary" id="ai-btn" onclick="runAI()">âœ¨ Run Analysis</button>
+    </div>
+    <div class="ai-out" id="ai-out"></div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="dash-footer">
+    <div>Casting Capital Â· Internal Executive Dashboard Â· Auto-saved to local storage</div>
+    <div class="footer-links">
+      <button class="footer-link rec" onclick="openReconcileModal()">Reconcile Cash Balance</button>
+      <span>Â·</span>
+      <button class="footer-link exp" onclick="openExportModal()">Export / Import State</button>
+    </div>
+  </footer>
+</div>
+
+<!-- MODAL OVERLAY -->
+<div class="overlay" id="overlay" onclick="overlayClick(event)">
+  <div class="modal-box" id="modal-box"></div>
+</div>
+
+<script>
+const STORAGE_KEY = 'sprint-dashboard-v16';
+const SPRINT_LEN  = 120;
+const STRATEGIES  = ['Shares', 'Call Option', 'Put Option'];
+
+const US_HOLIDAYS = new Set([
+  '2026-01-01','2026-01-19','2026-02-16','2026-04-03',
+  '2026-05-25','2026-06-19','2026-07-03','2026-09-07',
+  '2026-11-26','2026-12-25',
+  '2027-01-01','2027-01-18','2027-02-15','2027-03-26',
+  '2027-05-31','2027-06-18','2027-07-05','2027-09-06',
+  '2027-11-25','2027-12-24',
+]);
+
+
+// Compact trade decoder: [id,date,ticker,strategy,entryPrice,contracts,exitPrice,pnl,notes,status]
+function decodeTrade(a){
+  return {id:a[0],date:a[1],ticker:a[2],strategy:a[3],entryPrice:a[4],contracts:a[5],
+          exitPrice:a[6],currentMarketValue:0,currentPrice:0,pnl:a[7],notes:a[8],status:a[9]};
+}
+function decodeTradeList(arr){ return arr.map(decodeTrade); }
+
+const DEFAULT_STATE = {
+  startingCapital: 1350,
+  sprintStart: '2026-04-16',
+  target: 30000,
+  trades: decodeTradeList([
+["nvda-shr-0320","2026-03-20","NVDA","Shares",175.5,6.0,175.56,0.36,"Closed 2026-04-02","closed"],
+["aapl-shr-0320","2026-03-20","AAPL","Shares",248.25,2.0,254.79,13.08,"Closed 2026-04-02","closed"],
+["mu-shr-0402","2026-04-02","MU","Shares",368.18,3.0,405.72,112.62,"Closed 2026-04-09","closed"],
+["nvda-call-0402","2026-04-02","NVDA","Call Option",4.45,1.0,8.0,355.0,"Apr10/Apr15 175 call (calendar roll)","closed"],
+["pltr-shr-0413","2026-04-13","PLTR","Shares",131.57,7.0,136.0,31.01,"Closed 2026-04-15","closed"],
+["pltr-call-0413","2026-04-13","PLTR","Call Option",3.0,2.0,5.6,520.0,"Apr17 132 call","closed"],
+["meta-call-0415","2026-04-15","META","Call Option",6.9,1.0,11.45,455.0,"Apr20 670 call","closed"],
+["intc-call-66","2026-04-15","INTC","Call Option",1.32,3.0,1.28,-12.0,"Apr17 66 call","closed"],
+["crwv-call-0415","2026-04-15","CRWV","Call Option",3.7,1.0,3.3,-40.0,"Apr17 117 call","closed"],
+["oklo-call-65","2026-04-16","OKLO","Call Option",1.4,3.0,1.9,150.0,"Apr17 65 call","closed"],
+["avgo-call-400","2026-04-16","AVGO","Call Option",6.95,1.0,9.9,295.0,"Apr24 400 call","closed"],
+["googl-call-345","2026-04-16","GOOGL","Call Option",3.23,3.0,1.5,-519.0,"Apr24 345 call (avg entry 3 lots)","closed"],
+["vst-call-0416","2026-04-16","VST","Call Option",3.75,1.0,2.05,-170.0,"Apr24 170 call","closed"],
+["hims-call-0416","2026-04-16","HIMS","Call Option",0.49,3.0,1.18,208.0,"Apr24 30 call (avg exit)","closed"],
+["intc-call-70a","2026-04-16","INTC","Call Option",2.45,2.0,2.03,-84.0,"Apr24 70 call","closed"],
+["oklo-call-70a","2026-04-20","OKLO","Call Option",1.65,1.0,2.05,40.0,"Apr24 70 call","closed"],
+["oklo-call-70b","2026-04-21","OKLO","Call Option",3.0,1.0,3.55,55.0,"May01 70 call","closed"],
+["intc-call-70b","2026-04-21","INTC","Call Option",2.8,1.0,2.5,-30.0,"May01 70 call","closed"],
+["nflx-call-100","2026-04-21","NFLX","Call Option",0.4,6.0,0.31,-54.0,"May01 100 call (avg entry 6 lots)","closed"],
+["nflx-call-95","2026-04-22","NFLX","Call Option",0.35,7.0,0.42,50.0,"Apr24 95 call (avg entry 7 lots)","closed"],
+["adbe-call-0422","2026-04-22","ADBE","Call Option",2.15,1.0,0.05,-210.0,"Apr24 260 call","closed"],
+["intc-call-67","2026-04-22","INTC","Call Option",2.95,1.0,17.0,1405.0,"Apr24 67 call \u2014 big win","closed"],
+["lwlg-call-0423","2026-04-23","LWLG","Call Option",1.65,2.0,1.22,-86.0,"May15 15 call","closed"],
+["oklo-call-80","2026-04-23","OKLO","Call Option",5.0,1.0,4.05,-95.0,"May01 80 call","closed"],
+["pltr-call-150","2026-04-23","PLTR","Call Option",2.86,1.0,1.65,-121.0,"May01 150 call","closed"],
+["amzn-call-260","2026-04-24","AMZN","Call Option",1.48,1.0,1.63,15.0,"Apr27 260 call","closed"],
+["oklo-call-75","2026-04-27","OKLO","Call Option",3.3,1.0,2.86,-44.0,"May01 75 call","closed"],
+["nvda-call-210","2026-04-27","NVDA","Call Option",3.7,1.0,6.45,275.0,"May01 210 call","closed"],
+["intc-call-85","2026-04-27","INTC","Call Option",3.35,1.0,1.75,-160.0,"May01 85 call","closed"],
+["nvda-call-215","2026-04-28","NVDA","Call Option",2.0,2.0,2.05,10.0,"May01 215 call","closed"],
+["amzn-call-270","2026-04-28","AMZN","Call Option",5.85,1.0,0.78,-507.0,"May01 270 call","closed"],
+["avgo-call-410","2026-04-29","AVGO","Call Option",4.4,1.0,5.3,90.0,"May01 410 call","closed"],
+["googl-call-3775","2026-04-30","GOOGL","Call Option",2.5,2.0,5.25,550.0,"May01 377.5 call","closed"],
+["aapl-call-285","2026-05-01","AAPL","Call Option",2.3,2.0,3.5,240.0,"May08 285 call","closed"],
+["nvda-call-200","2026-05-01","NVDA","Call Option",4.16,1.0,3.85,-31.0,"May08 200 call","closed"],
+["intc-put-95","2026-05-01","INTC","Put Option",3.15,1.0,2.9,-25.0,"May08 95 put","closed"],
+["aapl-put-2775","2026-05-01","AAPL","Put Option",1.23,2.0,1.92,138.0,"May08 277.5 put","closed"],
+["intc-put-98","2026-05-01","INTC","Put Option",0.75,1.0,0.6,-15.0,"May01 98 put","closed"],
+["amd-call-3525","2026-05-01","AMD","Call Option",2.5,2.0,8.0,1100.0,"May01 352.5 call \u2014 big win","closed"],
+["pltr-call-145","2026-05-01","PLTR","Call Option",6.0,1.0,6.4,40.0,"May08 145 call","closed"],
+["orcl-put-170","2026-05-02","ORCL","Put Option",0.31,10.0,0.17,-140.0,"May01 170 put","closed"],
+["meta-call-615","2026-05-02","META","Call Option",0.85,5.0,0.72,-65.0,"May01 615 call","closed"],
+["meta-call-610","2026-05-02","META","Call Option",2.55,2.0,3.0,90.0,"May01 610 call","closed"],
+["googl-put-3825","2026-05-02","GOOGL","Put Option",0.17,30.0,0.15,-60.0,"May01 382.5 put","closed"],
+["meta-put-610","2026-05-02","META","Put Option",0.55,10.0,0.8,250.0,"May01 610 put","closed"],
+["amd-call-350-0504","2026-05-04","AMD","Call Option",13.5,1.0,12.4,-110.0,"May08 350 call","closed"],
+["pltr-call-150-0504","2026-05-04","PLTR","Call Option",5.5,1.0,6.0,50.0,"May08 150 call","closed"],
+["intc-call-100a-0505","2026-05-05","INTC","Call Option",2.6,3.0,2.37,-69.0,"May08 100 call (trade 1)","closed"],
+["intc-call-100b-0505","2026-05-05","INTC","Call Option",2.45,4.0,2.3,-60.0,"May08 100 call (trade 2)","closed"],
+["aapl-call-280-0505","2026-05-05","AAPL","Call Option",2.07,4.0,2.0,-28.0,"May08 280 call","closed"],
+["intc-put-100-0505","2026-05-05","INTC","Put Option",1.78,2.0,1.76,-4.0,"May08 100 put","closed"],
+["intc-put-105a-0505","2026-05-05","INTC","Put Option",4.0,1.0,3.8,-20.0,"May08 105 put (trade 1)","closed"],
+["intc-put-105b-0505","2026-05-05","INTC","Put Option",3.25,2.0,2.99,-52.0,"May08 105 put (trade 2)","closed"],
+["intc-put-105c-0505","2026-05-05","INTC","Put Option",2.74,3.0,2.9,48.0,"May08 105 put (trade 3)","closed"],
+["pltr-call-140a-0505","2026-05-05","PLTR","Call Option",3.8,1.0,3.05,-75.0,"May08 140 call (trade 1)","closed"],
+["pltr-call-140b-0505","2026-05-05","PLTR","Call Option",3.15,2.0,3.25,20.0,"May08 140 call (trade 2)","closed"],
+["amd-put-340-0505","2026-05-05","AMD","Put Option",10.3,1.0,9.9,-40.0,"May08 340 put","closed"],
+["nvda-call-200a-0505","2026-05-05","NVDA","Call Option",2.6,3.0,2.17,-129.0,"May08 200 call (trade 1)","closed"],
+["nvda-call-200b-0505","2026-05-05","NVDA","Call Option",1.91,3.0,2.0,27.0,"May08 200 call (trade 2)","closed"],
+["tsla-call-400-0505","2026-05-05","TSLA","Call Option",4.6,1.0,3.5,-110.0,"May08 400 call","closed"],
+["intc-put-105d-0506","2026-05-06","INTC","Put Option",3.1,2.0,2.77,-66.0,"May08 105 put (trade 4)","closed"],
+["amd-put-350-0506","2026-05-06","AMD","Put Option",13.0,1.0,12.5,-50.0,"May08 350 put","closed"],
+["amd-call-370a-0506","2026-05-06","AMD","Call Option",10.28,1.0,10.2,-8.0,"May08 370 call (quick flip)","closed"],
+["amd-call-370b-0506","2026-05-06","AMD","Call Option",10.5,1.0,40.07,2957.0,"May08 370 call \u2014 massive win","closed"],
+["amd-put-345-0506","2026-05-06","AMD","Put Option",10.7,1.0,10.3,-40.0,"May08 345 put","closed"],
+["nvda-call-205-0506","2026-05-06","NVDA","Call Option",0.29,15.0,1.02,1095.0,"May06 205 call \u2014 same-day expiry win","closed"],
+["googl-call-400a-0506","2026-05-06","GOOGL","Call Option",2.2,5.0,2.29,45.0,"May08 400 call (trade 1)","closed"],
+["intc-call-115-0506","2026-05-06","INTC","Call Option",2.34,3.0,2.54,60.0,"May08 115 call","closed"],
+["amd-call-420-0506","2026-05-06","AMD","Call Option",8.15,1.0,7.8,-35.0,"May08 420 call","closed"],
+["googl-call-400b-0506","2026-05-06","GOOGL","Call Option",2.1,4.0,2.2,40.0,"May08 400 call (trade 2)","closed"],
+["googl-put-390-0506","2026-05-06","GOOGL","Put Option",1.93,3.0,1.8,-39.0,"May08 390 put","closed"],
+["intc-call-110-0506","2026-05-06","INTC","Call Option",2.75,3.0,4.0,375.0,"May08 110 call","closed"],
+["meta-put-610a-0506","2026-05-06","META","Put Option",4.0,2.0,3.7,-60.0,"May08 610 put (trade 1)","closed"],
+["meta-put-610b-0506","2026-05-06","META","Put Option",5.17,2.0,4.95,-44.0,"May08 610 put (trade 2)","closed"],
+["tsla-put-390a-0506","2026-05-06","TSLA","Put Option",4.45,2.0,4.75,60.0,"May08 390 put (trade 1)","closed"],
+["tsla-put-390b-0506","2026-05-06","TSLA","Put Option",4.3,2.0,4.05,-50.0,"May08 390 put (trade 2)","closed"],
+["nvda-put-200-0506","2026-05-06","NVDA","Put Option",1.35,4.0,1.25,-40.0,"May08 200 put","closed"],
+["mu-put-660-0506","2026-05-06","MU","Put Option",18.45,1.0,19.15,70.0,"May08 660 put","closed"],
+["pltr-put-130-0506","2026-05-06","PLTR","Put Option",1.32,6.0,1.17,-90.0,"May08 130 put","closed"],
+["googl-call-400c-0506","2026-05-06","GOOGL","Call Option",2.47,4.0,2.95,192.0,"May08 400 call (trade 3)","closed"],
+["googl-call-400d-0507","2026-05-07","GOOGL","Call Option",2.82,4.0,2.63,-76.0,"May08 400 call (trade 4)","closed"],
+["oklo-put-70a-0507","2026-05-07","OKLO","Put Option",0.83,10.0,0.75,-80.0,"May08 70 put (trade 1)","closed"],
+["oklo-put-70b-0507","2026-05-07","OKLO","Put Option",0.76,12.0,0.67,-108.0,"May08 70 put (trade 2)","closed"],
+["amd-put-410-0507","2026-05-07","AMD","Put Option",9.0,1.0,9.0,0.0,"May08 410 put (breakeven)","closed"],
+["amd-call-420a-0506","2026-05-06","AMD","Call Option",8.8,1.0,7.85,-95.0,"May08 420 call (trade 1)","closed"],
+["amd-call-420b-0507","2026-05-07","AMD","Call Option",7.0,2.0,6.8,-40.0,"May08 420 call (trade 2)","closed"],
+["amd-call-420c-0507","2026-05-07","AMD","Call Option",8.5,1.0,9.5,100.0,"May08 420 call (trade 3)","closed"],
+["amd-call-420d-0507","2026-05-07","AMD","Call Option",4.1,2.0,3.5,-120.0,"May08 420 call (trade 4)","closed"],
+["nvda-call-210a-0507","2026-05-07","NVDA","Call Option",1.1,10.0,1.6,500.0,"May08 210 call (trade 1)","closed"],
+["nvda-call-210b-0507","2026-05-07","NVDA","Call Option",1.57,4.0,4.5,1172.0,"May08 210 call (trade 2) \u2014 big win","closed"],
+["nvda-call-210c-0507","2026-05-07","NVDA","Call Option",1.5,2.0,4.5,600.0,"May08 210 call (trade 3)","closed"],
+["tsla-call-400-0507","2026-05-07","TSLA","Call Option",5.15,2.0,4.65,-100.0,"May08 400 call","closed"],
+["erna-shr-0507","2026-05-07","ERNA","Shares",7.0,200.0,7.27,54.0,"Eterna Therapeutics 200 shares","closed"],
+["amd-call-430-0507","2026-05-07","AMD","Call Option",6.27,1.0,6.23,-4.0,"May08 430 call","closed"],
+["tsla-call-410a-0507","2026-05-07","TSLA","Call Option",1.95,1.0,6.1,415.0,"May08 410 call (trade 1)","closed"],
+["tsla-call-410b-0507","2026-05-07","TSLA","Call Option",1.9,3.0,6.1,1260.0,"May08 410 call (trade 2) \u2014 big win","closed"],
+["aapl-call-290a-0507","2026-05-07","AAPL","Call Option",2.25,4.0,2.4,60.0,"May08 290 call (trade 1)","closed"],
+["aapl-call-290b-0507","2026-05-07","AAPL","Call Option",2.25,5.0,2.04,-105.0,"May08 290 call (trade 2)","closed"],
+["aapl-call-290c-0507","2026-05-07","AAPL","Call Option",2.13,4.0,3.05,368.0,"May08 290 call (trade 3)","closed"],
+["aapl-call-290d-0507","2026-05-07","AAPL","Call Option",2.7,3.0,2.62,-24.0,"May08 290 call (trade 4)","closed"],
+["aapl-call-300-0507","2026-05-07","AAPL","Call Option",0.15,40.0,0.12,-120.0,"May08 300 call (40 lots)","closed"],
+["amzn-call-275-0507","2026-05-07","AMZN","Call Option",1.47,6.0,1.5,18.0,"May08 275 call","closed"],
+["tsla-call-415-0507","2026-05-07","TSLA","Call Option",3.85,2.0,3.4,-90.0,"May08 415 call (trade 1)","closed"],
+["tsla-call-415-pend-0507","2026-05-07","TSLA","Call Option",2.88,4.0,3.03,60.0,"May08 415 call (resolves pending 4L@2.88)","closed"],
+["intc-put-110-0507","2026-05-07","INTC","Put Option",2.07,6.0,1.85,-132.0,"May08 110 put","closed"],
+["tsla-put-405-0507","2026-05-07","TSLA","Put Option",2.83,3.0,2.97,42.0,"May08 405 put","closed"],
+["tsla-call-412a-0508","2026-05-08","TSLA","Call Option",2.99,3.0,2.4,-177.0,"May08 412.5 call (3L)","closed"],
+["tsla-call-412b-0508","2026-05-08","TSLA","Call Option",2.99,2.0,2.6,-78.0,"May08 412.5 call (2L)","closed"],
+["nvda-call-515-210a-0508","2026-05-08","NVDA","Call Option",6.24,1.0,6.7,46.0,"May15 210 call (1L sell@6.70)","closed"],
+["nvda-call-515-210b-0508","2026-05-08","NVDA","Call Option",6.24,1.0,6.3,6.0,"May15 210 call (1L sell@6.30)","closed"],
+["aapl-call-290-0508","2026-05-08","AAPL","Call Option",1.39,4.0,1.3,-36.0,"May08 290 call","closed"],
+["intc-call-115-0508","2026-05-08","INTC","Call Option",1.34,5.0,1.85,255.0,"May08 115 call","closed"],
+["tsla-call-515-420-0508","2026-05-08","TSLA","Call Option",10.6,1.0,11.65,105.0,"May15 420 call","closed"],
+["nvda-put-2125a-0508","2026-05-08","NVDA","Put Option",0.2,40.0,0.18,-80.0,"May08 212.5 put (trade 1,40L)","closed"],
+["nvda-put-2125b-0508","2026-05-08","NVDA","Put Option",0.19,40.0,0.25,240.0,"May08 212.5 put (trade 2,40L)","closed"],
+["nvda-call-215-0508","2026-05-08","NVDA","Call Option",1.67,10.0,1.63,-40.0,"May08 215 call (10L)","closed"],
+["nvda-call-2175-0508","2026-05-08","NVDA","Call Option",0.49,40.0,0.47,-80.0,"May08 217.5 call (40L)","closed"],
+["tsla-put-420-0508","2026-05-08","TSLA","Put Option",1.15,8.0,0.8,-280.0,"May08 420 put (8L)","closed"],
+["nvda-put-2125c-0508","2026-05-08","NVDA","Put Option",0.48,30.0,0.35,-390.0,"May08 212.5 put (trade 3,30L)","closed"],
+["nvda-call-511-215-0508","2026-05-08","NVDA","Call Option",2.78,7.0,2.75,-21.0,"May11 215 call (7L)","closed"],
+["nvda-put-511-215-0508","2026-05-08","NVDA","Put Option",2.0,8.0,1.85,-120.0,"May11 215 put (8L)","closed"],
+["googl-call-511-400-0508","2026-05-08","GOOGL","Call Option",2.88,7.0,2.6,-196.0,"May11 400 call (7L)","closed"],
+["amd-call-435-0508","2026-05-08","AMD","Call Option",4.3,5.0,5.45,575.0,"May08 435 call","closed"],
+["mu-put-515-710-0508","2026-05-08","MU","Put Option",32.0,1.0,27.75,-425.0,"May15 710 put","closed"],
+["tsla-put-511-430a-0508","2026-05-08","TSLA","Put Option",7.0,1.0,6.2,-80.0,"May11 430 put (1L)","closed"],
+["tsla-put-511-430b-0508","2026-05-08","TSLA","Put Option",7.0,2.0,6.4,-120.0,"May11 430 put (2L)","closed"],
+["intc-call-508-130a-0509","2026-05-09","INTC","Call Option",2.9,7.0,2.6,-210.0,"May08 130 call (7L)","closed"],
+["intc-call-508-130b-0509","2026-05-09","INTC","Call Option",0.85,19.0,0.87,38.0,"May08 130 call (19L)","closed"],
+["intc-put-508-125a-0509","2026-05-09","INTC","Put Option",2.17,15.0,1.4,-1155.0,"May08 125 put (15L \u2014 big loss)","closed"],
+["intc-put-508-125b-0509","2026-05-09","INTC","Put Option",1.5,15.0,1.5,0.0,"May08 125 put (15L \u2014 breakeven)","closed"],
+["intc-call-515-130-0509","2026-05-09","INTC","Call Option",6.5,3.0,5.75,-225.0,"May15 130 call (3L)","closed"],
+["mu-call-508-7375-0509","2026-05-09","MU","Call Option",7.85,2.0,6.4,-290.0,"May08 737.5 call","closed"],
+["mu-put-508-730-0509","2026-05-09","MU","Put Option",7.57,2.0,6.9,-134.0,"May08 730 put","closed"],
+["amd-call-508-440-0509","2026-05-09","AMD","Call Option",4.0,5.0,6.75,1375.0,"May08 440 call \u2014 big win","closed"],
+["amd-call-515-450-pend-0509","2026-05-09","AMD","Call Option",15.1,1.0,16.75,165.0,"May15 450 call (resolves pending 1L@15.10)","closed"],
+["nvda-call-515-220-pend-0509","2026-05-09","NVDA","Call Option",2.78,7.0,2.51,-189.0,"May15 220 call (resolves pending 7L@2.78)","closed"],
+["meta-call-515-620-0509","2026-05-09","META","Call Option",6.1,2.0,6.05,-10.0,"May15 620 call","closed"],
+["meta-call-515-610-0509","2026-05-09","META","Call Option",10.3,1.0,9.8,-50.0,"May15 610 call","closed"],
+["pltr-call-515-140-0509","2026-05-09","PLTR","Call Option",2.48,5.0,2.56,40.0,"May15 140 call","closed"],
+["nvda-call-515-220a-0509","2026-05-09","NVDA","Call Option",2.48,5.0,4.1,810.0,"May15 220 call (5L \u2014 sold May11)","closed"],
+["tsla-call-515-430-0509","2026-05-09","TSLA","Call Option",9.5,1.0,6.5,-300.0,"May15 430 call","closed"],
+["googl-call-515-402-0509","2026-05-09","GOOGL","Call Option",5.4,2.0,2.37,-606.0,"May15 402.5 call \u2014 big loss","closed"],
+["intc-call-515-130a-0511","2026-05-11","INTC","Call Option",6.33,2.0,5.85,-96.0,"May15 130 call (trade 1)","closed"],
+["amd-call-515-465-0511","2026-05-11","AMD","Call Option",15.55,1.0,15.9,35.0,"May15 465 call","closed"],
+["iren-call-515-60-0512","2026-05-12","IREN","Call Option",1.37,3.0,1.51,42.0,"May15 60 call","closed"],
+["intc-call-515-130b-0512","2026-05-12","INTC","Call Option",3.9,2.0,3.3,-120.0,"May15 130 call (trade 2)","closed"],
+["tsla-call-513-445a-0512","2026-05-12","TSLA","Call Option",7.8,1.0,4.1,-370.0,"May13 445 call (trade 1)","closed"],
+["tsla-call-513-445b-0512","2026-05-12","TSLA","Call Option",5.75,1.0,4.1,-165.0,"May13 445 call (trade 2)","closed"],
+["nvda-call-513-220a-0512","2026-05-12","NVDA","Call Option",3.3,2.0,3.4,20.0,"May13 220 call (2L@3.30)","closed"],
+["nvda-call-513-220b-0512","2026-05-12","NVDA","Call Option",3.6,2.0,3.4,-40.0,"May13 220 call (2L@3.60)","closed"],
+["mu-call-515-800a-0512","2026-05-12","MU","Call Option",37.2,1.0,39.0,180.0,"May15 800 call (trade 1)","closed"],
+["mu-call-515-800b-0512","2026-05-12","MU","Call Option",41.75,1.0,49.0,725.0,"May15 800 call (trade 2)","closed"],
+["amd-put-515-460-0512","2026-05-12","AMD","Put Option",14.3,1.0,13.35,-95.0,"May15 460 put","closed"],
+["intc-call-515-125a-0512","2026-05-12","INTC","Call Option",4.5,1.0,3.6,-90.0,"May15 125 call (trade 1,1L)","closed"],
+["tsla-call-513-440-0512","2026-05-12","TSLA","Call Option",6.3,1.0,5.7,-60.0,"May13 440 call","closed"],
+["tsla-put-513-430-0512","2026-05-12","TSLA","Put Option",4.13,2.0,3.3,-166.0,"May13 430 put","closed"],
+["nvda-put-513-220-0512","2026-05-12","NVDA","Put Option",2.23,3.0,3.08,255.0,"May13 220 put","closed"],
+["amd-put-515-450-0512","2026-05-12","AMD","Put Option",14.5,1.0,13.55,-95.0,"May15 450 put","closed"],
+["amd-put-515-445-0512","2026-05-12","AMD","Put Option",11.7,1.0,12.1,40.0,"May15 445 put","closed"],
+["nvda-put-515-220-0512","2026-05-12","NVDA","Put Option",4.72,2.0,5.4,136.0,"May15 220 put","closed"],
+["intc-call-515-125b-0512","2026-05-12","INTC","Call Option",2.38,4.0,1.92,-184.0,"May15 125 call (trade 2,4L)","closed"],
+["iren-call-522-60-0512","2026-05-12","IREN","Call Option",2.41,3.0,2.31,-30.0,"May22 60 call","closed"],
+["amd-call-515-450b-0512","2026-05-12","AMD","Call Option",9.6,1.0,6.85,-275.0,"May15 450 call (trade 2)","closed"],
+["nvda-call-515-220b-0512","2026-05-12","NVDA","Call Option",2.75,1.0,7.5,475.0,"May15 220 call (1L of 3L,partial exit)","closed"],
+["tsla-call-515-435-0512","2026-05-12","TSLA","Call Option",8.55,1.0,7.95,-60.0,"May15 435 call","closed"],
+["amd-call-515-460-0513","2026-05-13","AMD","Call Option",4.05,1.0,12.25,820.0,"May15 460 call (1L of 2L,partial exit)","closed"],
+["nvda-call-515-220-pend1-0513","2026-05-13","NVDA","Call Option",2.75,1.0,8.1,535.0,"May15 220 call (resolves pending 1L \u2192 sell@8.10)","closed"],
+["nvda-call-515-220-pend2-0513","2026-05-13","NVDA","Call Option",2.75,1.0,5.05,230.0,"May15 220 call (resolves pending 1L \u2192 sell@5.05)","closed"],
+["amd-call-515-460-pend-0513","2026-05-13","AMD","Call Option",4.05,1.0,6.0,195.0,"May15 460 call (resolves pending 1L@4.05)","closed"],
+["iren-call-515-60b-0513","2026-05-13","IREN","Call Option",0.98,6.0,0.65,-198.0,"May15 60 call (6L)","closed"],
+["nvda-put-515-220a-0513","2026-05-13","NVDA","Put Option",2.42,2.0,1.93,-98.0,"May15 220 put (trade 1,2L)","closed"],
+["nvda-put-515-220b-0513","2026-05-13","NVDA","Put Option",1.27,4.0,1.19,-32.0,"May15 220 put (trade 2,4L)","closed"],
+["nvda-put-515-220c-0513","2026-05-13","NVDA","Put Option",1.16,4.0,1.2,16.0,"May15 220 put (trade 3,4L)","closed"],
+["nvda-call-515-230a-0513","2026-05-13","NVDA","Call Option",2.44,5.0,2.14,-150.0,"May15 230 call (5L,sold May14)","closed"],
+["nvda-call-513-2275-0514","2026-05-14","NVDA","Call Option",0.5,15.0,0.39,-165.0,"May13 227.5 call (15L)","closed"],
+["tsla-call-513-450-0514","2026-05-14","TSLA","Call Option",2.3,4.0,1.45,-340.0,"May13 450 call (4L)","closed"],
+["tsla-put-513-4475-0514","2026-05-14","TSLA","Put Option",1.7,5.0,1.38,-160.0,"May13 447.5 put (5L)","closed"],
+["tsla-call-515-450-0514","2026-05-14","TSLA","Call Option",7.25,2.0,8.35,220.0,"May15 450 call","closed"],
+["mu-call-515-800c-0514","2026-05-14","MU","Call Option",26.91,1.0,25.75,-116.0,"May15 800 call (trade 3)","closed"],
+["mu-call-515-800d-0514","2026-05-14","MU","Call Option",26.5,1.0,26.75,25.0,"May15 800 call (trade 4)","closed"],
+["nvda-call-518-230-0514","2026-05-14","NVDA","Call Option",3.1,5.0,3.04,-30.0,"May18 230 call (5L)","closed"],
+["tsla-call-518-450a-0514","2026-05-14","TSLA","Call Option",9.2,1.0,6.77,-243.0,"May18 450 call (trade 1)","closed"],
+["intc-call-515-120-0514","2026-05-14","INTC","Call Option",2.2,2.0,2.1,-20.0,"May15 120 call","closed"],
+["nvda-put-515-2325a-0514","2026-05-14","NVDA","Put Option",1.97,3.0,1.65,-96.0,"May15 232.5 put (trade 1,3L)","closed"],
+["amd-call-515-450c-0514","2026-05-14","AMD","Call Option",7.32,1.0,9.35,203.0,"May15 450 call","closed"],
+["intc-put-515-115a-0514","2026-05-14","INTC","Put Option",2.37,2.0,2.22,-30.0,"May15 115 put (2L@2.37)","closed"],
+["intc-put-515-115b-0514","2026-05-14","INTC","Put Option",2.2,2.0,2.22,4.0,"May15 115 put (2L@2.20)","closed"],
+["intc-put-515-115c-0514","2026-05-14","INTC","Put Option",2.55,2.0,3.0,90.0,"May15 115 put (2L@2.55)","closed"],
+["tsla-call-518-450b-0514","2026-05-14","TSLA","Call Option",7.7,1.0,6.55,-115.0,"May18 450 call (trade 2)","closed"],
+["nvda-put-515-2325b-0514","2026-05-14","NVDA","Put Option",1.76,5.0,1.92,80.0,"May15 232.5 put (trade 2,5L)","closed"],
+["nvda-call-518-225a-0514","2026-05-14","NVDA","Call Option",5.22,1.0,10.9,568.0,"May18 225 call (1L@5.22)","closed"],
+["nvda-call-518-225b-0514","2026-05-14","NVDA","Call Option",4.88,1.0,10.9,602.0,"May18 225 call (1L@4.88)","closed"],
+["nvda-call-518-225c-0514","2026-05-14","NVDA","Call Option",4.38,1.0,10.9,652.0,"May18 225 call (1L@4.38) \u2014 big win","closed"],
+["aapl-call-518-3075a-0514","2026-05-14","AAPL","Call Option",0.84,5.0,0.52,-160.0,"May18 307.5 call (5L@0.84)","closed"],
+["aapl-call-518-3075b-0514","2026-05-14","AAPL","Call Option",1.03,5.0,0.52,-255.0,"May18 307.5 call (5L@1.03)","closed"],
+["iren-call-522-65-0514","2026-05-14","IREN","Call Option",1.95,3.0,0.71,-372.0,"May22 65 call","closed"],
+["pltr-call-522-140b-0514","2026-05-14","PLTR","Call Option",1.68,2.0,1.51,-34.0,"May22 140 call","closed"],
+["nvda-call-518-240a-0514","2026-05-14","NVDA","Call Option",2.21,2.0,0.29,-384.0,"May18 240 call (2L@2.21)","closed"],
+["nvda-call-518-240b-0514","2026-05-14","NVDA","Call Option",2.3,2.0,0.29,-402.0,"May18 240 call (2L@2.30)","closed"],
+["tsla-put-515-430-0515","2026-05-15","TSLA","Put Option",4.0,2.0,4.4,80.0,"May15 430 put","closed"],
+["tsla-call-515-4275-0515","2026-05-15","TSLA","Call Option",2.9,2.0,2.69,-42.0,"May15 427.5 call","closed"],
+["tsla-call-515-430-0515","2026-05-15","TSLA","Call Option",2.87,1.0,2.02,-85.0,"May15 430 call","closed"],
+["nvda-call-515-225a-0515","2026-05-15","NVDA","Call Option",2.22,3.0,4.39,651.0,"May15 225 call (3L \u2192 sell@4.39)","closed"],
+["nvda-call-515-225b-0515","2026-05-15","NVDA","Call Option",2.22,4.0,3.65,572.0,"May15 225 call (4L \u2192 sell@3.65)","closed"],
+["nvda-call-518-240c-0515","2026-05-15","NVDA","Call Option",2.25,2.0,0.27,-396.0,"May18 240 call (2L@2.25)","closed"],
+["nvda-call-518-240d-0515","2026-05-15","NVDA","Call Option",1.72,3.0,0.27,-435.0,"May18 240 call (3L@1.72)","closed"],
+["nvda-call-518-240e-0515","2026-05-15","NVDA","Call Option",0.37,9.0,0.27,-90.0,"May18 240 call (9L@0.37)","closed"],
+["nvda-call-518-240f-0515","2026-05-15","NVDA","Call Option",0.35,9.0,0.27,-72.0,"May18 240 call (9L@0.35)","closed"],
+["nvda-call-518-240g-0515","2026-05-15","NVDA","Call Option",0.39,5.0,0.27,-60.0,"May18 240 call (5L@0.39)","closed"],
+["nvda-call-518-240h-0515","2026-05-15","NVDA","Call Option",0.33,15.0,0.27,-90.0,"May18 240 call (15L@0.33)","closed"],
+["nvda-put-515-225a-0515","2026-05-15","NVDA","Put Option",0.37,20.0,0.22,-300.0,"May15 225 put (20L@0.37)","closed"],
+["nvda-put-515-225b-0515","2026-05-15","NVDA","Put Option",0.3,20.0,0.22,-160.0,"May15 225 put (20L@0.30)","closed"],
+["nvda-put-515-225c-0515","2026-05-15","NVDA","Put Option",0.25,20.0,0.22,-60.0,"May15 225 put (20L@0.25)","closed"],
+["nvda-put-515-225d-0516","2026-05-16","NVDA","Put Option",0.25,60.0,0.19,-360.0,"May15 225 put (60L@0.25)","closed"],
+["nvda-call-515-230b-0516","2026-05-16","NVDA","Call Option",0.47,20.0,0.36,-220.0,"May15 230 call (20L@0.47)","closed"],
+["nvda-call-515-230c-0516","2026-05-16","NVDA","Call Option",0.4,20.0,0.36,-80.0,"May15 230 call (20L@0.40)","closed"],
+["msft-call-520-425a-0516","2026-05-16","MSFT","Call Option",6.05,1.0,6.0,-5.0,"May20 425 call (1L)","closed"],
+["msft-call-520-425b-0516","2026-05-16","MSFT","Call Option",6.1,2.0,5.95,-30.0,"May20 425 call (2L)","closed"],
+["amd-put-515-430-0516","2026-05-16","AMD","Put Option",2.15,4.0,2.09,-24.0,"May15 430 put","closed"]
+]),
+  withdrawals: [
+    {id:'wd-20260415',date:'2026-04-15',amount:700.00,notes:'Withdrawal'},
+    {id:'wd-20260420',date:'2026-04-20',amount:200.00,notes:'Withdrawal'},
+    {id:'wd-20260423',date:'2026-04-23',amount:300.00,notes:'Withdrawal'},
+    {id:'wd-20260427a',date:'2026-04-27',amount:1000.00,notes:'Withdrawal'},
+    {id:'wd-20260427b',date:'2026-04-27',amount:300.00,notes:'Withdrawal'},
+    {id:'wd-20260504',date:'2026-05-04',amount:500.00,notes:'Withdrawal'},
+    {id:'wd-20260507',date:'2026-05-07',amount:100.00,notes:'Withdrawal'},
+    {id:'wd-20260508',date:'2026-05-08',amount:350.00,notes:'Withdrawal'},
+    {id:'wd-20260511',date:'2026-05-11',amount:300.00,notes:'Withdrawal'},
+    {id:'wd-20260512',date:'2026-05-12',amount:75.00,notes:'Withdrawal'},
+    {id:'wd-20260514',date:'2026-05-14',amount:1000.00,notes:'Withdrawal'},
+    {id:'wd-20260515a',date:'2026-05-15',amount:100.00,notes:'Withdrawal'},
+    {id:'wd-20260515b',date:'2026-05-15',amount:300.00,notes:'Withdrawal'},
+    {id:'fees-commissions',date:'2026-05-16',amount:2907.90,notes:'Broker fees & commissions (Tiger regular plan:commission + platform + GST 9% + ORF/OCC/SEC/TAF).'},
+    {id:'fees-exchange',date:'2026-05-16',amount:294.88,notes:'Exchange fees & rounding variance â€” reconciled to actual broker balance $2,376.29.'},
+  ],
+};
+let state   = JSON.parse(JSON.stringify(DEFAULT_STATE));
+let chart   = null;
+let aiMode  = 'idea';
+function parseDate(s){ if(!s)return new Date(); const[y,m,d]=s.split('-').map(Number); return new Date(y,m-1,d); }
+function toISO(d){ return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+function isTradingDay(d){ const w=d.getDay(); return w!==0&&w!==6&&!US_HOLIDAYS.has(toISO(d)); }
+function tradingDaysBetween(a,b){
+  const s=parseDate(a), e=parseDate(b);
+  if(s>e)return 0;
+  let n=0, c=new Date(s);
+  while(c<=e){ if(isTradingDay(c))n++; c.setDate(c.getDate()+1); }
+  return n;
+}
+function sprintEndDate(start,n){
+  const c=parseDate(start); let k=0;
+  while(k<n){ if(isTradingDay(c))k++; if(k<n)c.setDate(c.getDate()+1); }
+  return toISO(c);
+}
+function fmtDate(iso){ if(!iso)return'â€”'; return parseDate(iso).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}); }
+const USD  = n => new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(n||0);
+const USD2 = n => new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',minimumFractionDigits:2}).format(n||0);
+const PCT  = n => `${(n||0).toFixed(1)}%`;
+function mult(t){ return t.strategy==='Shares'?1:100; }
+function capDeployed(t){ return (Number(t.entryPrice)||0)*(Number(t.contracts)||0)*mult(t); }
+function roi(t){ const c=capDeployed(t),p=Number(t.pnl)||0; return c>0?(p/c)*100:null; }
+function metrics(){
+  const trd=state.trades||[];
+  const open=trd.filter(t=>t.status==='open');
+  const closed=trd.filter(t=>t.status==='closed'||t.status==='historical');
+
+  const realizedPnL  = closed.reduce((s,t)=>s+(Number(t.pnl)||0),0);
+  const capInOpen    = open.reduce((s,t)=>s+capDeployed(t),0);
+  const openMV       = open.reduce((s,t)=>{ const v=Number(t.currentMarketValue); return s+(isNaN(v)||v===0?capDeployed(t):v); },0);
+  const unrealPnL    = openMV - capInOpen;
+
+  const startCap     = Number(state.startingCapital)||0;
+  const wds          = state.withdrawals||[];
+  const totalWD      = wds.filter(w=>!w.id.startsWith('fees-')).reduce((s,w)=>s+(Number(w.amount)||0),0);
+  const totalFees    = wds.filter(w=>w.id.startsWith('fees-')).reduce((s,w)=>s+(Number(w.amount)||0),0);
+  const netRealizedPnL = realizedPnL - totalFees;
+  const cashBal      = startCap + realizedPnL - capInOpen - totalWD - totalFees;
+  const acctVal      = cashBal + openMV;
+  const adjVal       = acctVal + totalWD;
+  const target       = Number(state.target)||30000;
+  const progressPct  = target===startCap?0:((adjVal-startCap)/(target-startCap))*100;
+
+  const wins         = closed.filter(t=>Number(t.pnl)>0);
+  const winRate      = closed.length>0?(wins.length/closed.length)*100:0;
+  const totalPnL     = realizedPnL+unrealPnL;
+  const netTotalPnL  = netRealizedPnL+unrealPnL;
+  const acctReturn   = startCap>0?(netTotalPnL/startCap)*100:0;
+
+  const today        = toISO(new Date());
+  const sprintEnd    = sprintEndDate(state.sprintStart,SPRINT_LEN);
+  const daysElapsed  = tradingDaysBetween(state.sprintStart,today);
+  const daysLeft     = Math.max(0,SPRINT_LEN-daysElapsed);
+  const dailyRun     = daysLeft>0?(target-acctVal)/daysLeft:0;
+  const reqCpd       = daysLeft>0&&acctVal>0?(Math.pow(target/acctVal,1/daysLeft)-1)*100:0;
+  const pace         = daysElapsed>0?netTotalPnL/daysElapsed:0;
+  const projected    = startCap + pace*SPRINT_LEN;
+
+  let tStatus='neutral', tLabel='Awaiting Data';
+  if(daysElapsed>0){
+    if(projected>=target*1.05){ tStatus='ahead';   tLabel='Ahead of Pace'; }
+    else if(projected>=target*0.95){ tStatus='ontrack'; tLabel='On Track'; }
+    else { tStatus='behind'; tLabel='Below Pace'; }
+  }
+
+  return {
+    realizedPnL, netRealizedPnL, unrealPnL, totalPnL, netTotalPnL, totalFees,
+    cashBal, openMV, capInOpen, totalWD,
+    acctVal, progressPct, winRate, acctReturn,
+    daysElapsed, daysLeft, sprintEnd,
+    dailyRun, reqCpd, projected,
+    tStatus, tLabel, target, startCap,
+    closedCount:closed.length, openCount:open.length,
+    winsCount:wins.length, lossCount:closed.filter(t=>Number(t.pnl)<0).length,
+  };
+}
+
+function chartData(){
+  const sorted=[...(state.trades||[])].filter(t=>t.status==='closed'||t.status==='historical').sort((a,b)=>new Date(a.date)-new Date(b.date));
+  let cum=Number(state.startingCapital)||0;
+  const labels=['Start'], data=[cum];
+  sorted.forEach(t=>{ cum+=Number(t.pnl)||0; labels.push(t.ticker); data.push(cum); });
+  return{labels,data};
+}
+function save(){ try{ localStorage.setItem(STORAGE_KEY,JSON.stringify(state)); }catch(e){} }
+function load(){
+  try{
+    const s=localStorage.getItem(STORAGE_KEY);
+    if(s){ const p=JSON.parse(s); if(!p.withdrawals)p.withdrawals=[]; state=p; }
+  }catch(e){}
+  render();
+}
+function render(){
+  const m=metrics();
+  renderConfig();
+  renderHeader(m);
+  renderSummary(m);
+  renderMetricCards(m);
+  renderTrajectory(m);
+  renderChart();
+  renderOpenTable(m);
+  renderHistTable(m);
+  renderAiCtx(m);
+}
+
+function renderConfig(){
+  document.getElementById('cfg-capital').value = state.startingCapital;
+  document.getElementById('cfg-start').value   = state.sprintStart;
+  document.getElementById('cfg-target').value  = state.target;
+  document.getElementById('chart-target-label').textContent = `Target: ${USD(state.target)}`;
+}
+
+function renderHeader(m){
+  const el=document.getElementById('traj-badge');
+  const icons={ahead:'ðŸ“ˆ',ontrack:'âœ…',behind:'âš ï¸',neutral:'â³'};
+  el.textContent=`${icons[m.tStatus]} ${m.tLabel}`;
+  el.className=`badge ${m.tStatus}`;
+}
+
+function renderSummary(m){
+  document.getElementById('s-cash').textContent=USD2(m.cashBal);
+  document.getElementById('s-cash').className=`s-value c-teal`;
+  const cashSub=document.getElementById('s-cash-sub');
+  cashSub.innerHTML = m.totalWD>0 ? `Withdrawn to date: <span class="c-red">${USD2(m.totalWD)}</span>` : 'Start + Realized âˆ’ Capital in Open';
+
+  document.getElementById('s-mv').textContent=USD2(m.openMV);
+  document.getElementById('s-mv-sub').textContent=`${m.openCount} open Â· ${USD2(m.capInOpen)} deployed`;
+
+  const unr=document.getElementById('s-unreal');
+  unr.textContent=USD2(m.unrealPnL);
+  unr.className=`s-value ${m.unrealPnL>=0?'c-green':'c-red'}`;
+
+  document.getElementById('s-acct').textContent=USD2(m.acctVal);
+}
+
+function renderMetricCards(m){
+  const cards=[
+    {label:'Net P&L',            val:USD(m.netTotalPnL), cls:m.netTotalPnL>=0?'c-green':'c-red', sub:`Gross: ${USD(m.realizedPnL)} Â· Fees: âˆ’${USD(m.totalFees)}`},
+    {label:'Progress to Target',val:PCT(Math.max(0,Math.min(100,m.progressPct))), cls:'c-gold', sub:m.totalWD>0?'Gross of withdrawals':''},
+    {label:'Net Return',         val:PCT(m.acctReturn),  cls:m.acctReturn>=0?'c-teal':'c-red',  sub:'Net P&L Ã· Starting Capital'},
+    {label:'Win Rate',          val:PCT(m.winRate),     cls:'c-green',  sub:`${m.closedCount} closed`},
+    {label:'Market Days Left',  val:`${m.daysLeft}`,    cls:'c-gold',   sub:`Day ${m.daysElapsed} of ${SPRINT_LEN}`},
+    {label:'Sprint Ends',       val:fmtDate(m.sprintEnd),cls:'c-teal',  sub:'Trading-day adjusted'},
+  ];
+  document.getElementById('metric-grid').innerHTML=cards.map(c=>`
+    <div class="metric-card">
+      <div class="metric-card-top"><span class="m-label">${c.label}</span></div>
+      <div class="m-value ${c.cls}">${c.val}</div>
+      ${c.sub?`<div class="m-sub">${c.sub}</div>`:''}
+    </div>`).join('');
+}
+
+function renderTrajectory(m){
+  document.getElementById('t-daily').textContent=USD2(m.dailyRun);
+  document.getElementById('t-daily-sub').textContent=`Avg net per session Â· ${m.daysLeft} sessions left`;
+  document.getElementById('t-compound').textContent=PCT(m.reqCpd);
+  const pr=document.getElementById('t-projected');
+  pr.textContent=USD(m.projected);
+  pr.className=`t-value ${m.projected>=m.target?'c-green':'c-red'}`;
+  const pct=Math.min(100,(m.daysElapsed/SPRINT_LEN)*100);
+  document.getElementById('t-bar').style.width=`${pct}%`;
+  document.getElementById('t-pct').textContent=`${Math.round(pct)}% of ${SPRINT_LEN} trading days elapsed`;
+}
+
+function renderChart(){
+  const {labels,data}=chartData();
+  const svg=document.getElementById('growthChart');
+  if(!svg)return;
+  const W=svg.clientWidth||svg.parentElement.clientWidth||800, H=256;
+  const pad={t:16,r:16,b:32,l:52};
+  const iW=W-pad.l-pad.r, iH=H-pad.t-pad.b;
+  const minV=Math.min(...data,0), maxV=Math.max(...data, Number(state.target)||30000);
+  const range=maxV-minV||1;
+  const tgt=Number(state.target)||30000;
+  const strt=Number(state.startingCapital)||0;
+  const px=i=>pad.l+i/(data.length-1||1)*iW;
+  const py=v=>pad.t+iH-(v-minV)/range*iH;
+  const pts=data.map((v,i)=>`${px(i).toFixed(1)},${py(v).toFixed(1)}`).join(' ');
+  const fillPts=`${px(0).toFixed(1)},${py(minV).toFixed(1)} ${pts} ${px(data.length-1).toFixed(1)},${py(minV).toFixed(1)}`;
+  // Y axis labels
+  const yTicks=5;
+  let yLabels='';
+  for(let i=0;i<=yTicks;i++){
+    const v=minV+(range/yTicks)*i;
+    const y=py(v);
+    yLabels+=`<line x1="${pad.l}" y1="${y.toFixed(1)}" x2="${pad.l+iW}" y2="${y.toFixed(1)}" stroke="#1e293b" stroke-width="1"/>`;
+    yLabels+=`<text x="${pad.l-6}" y="${(y+4).toFixed(1)}" fill="#64748b" font-size="11" text-anchor="end">$${v>=1000?(v/1000).toFixed(0)+'k':v.toFixed(0)}</text>`;
+  }
+  // Target & start lines
+  const tyLine=py(tgt), syLine=py(strt);
+  svg.innerHTML=`
+    <rect width="${W}" height="${H}" fill="none"/>
+    ${yLabels}
+    <line x1="${pad.l}" y1="${tyLine.toFixed(1)}" x2="${pad.l+iW}" y2="${tyLine.toFixed(1)}" stroke="#d4a574" stroke-width="1.5" stroke-dasharray="4,4"/>
+    <text x="${pad.l+iW-4}" y="${(tyLine-4).toFixed(1)}" fill="#d4a574" font-size="10" text-anchor="end">Target</text>
+    <line x1="${pad.l}" y1="${syLine.toFixed(1)}" x2="${pad.l+iW}" y2="${syLine.toFixed(1)}" stroke="#475569" stroke-width="1" stroke-dasharray="2,2"/>
+    <defs><linearGradient id="fillGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2dd4bf" stop-opacity="0.4"/><stop offset="100%" stop-color="#2dd4bf" stop-opacity="0"/></linearGradient></defs>
+    <polygon points="${fillPts}" fill="url(#fillGrad)"/>
+    <polyline points="${pts}" fill="none" stroke="#2dd4bf" stroke-width="2" stroke-linejoin="round"/>
+    ${data.map((v,i)=>`<circle cx="${px(i).toFixed(1)}" cy="${py(v).toFixed(1)}" r="3" fill="#2dd4bf"/>`).join('')}
+  `;
+}
+
+function stratPill(s){
+  const m={Shares:'pill-shares','Call Option':'pill-call','Put Option':'pill-put'};
+  return `<span class="pill ${m[s]||'pill-closed'}">${s||'â€”'}</span>`;
+}
+function statusPill(s){
+  const m={open:'pill-open',closed:'pill-closed',historical:'pill-hist'};
+  const l={open:'Open',closed:'Closed',historical:'Historical Win'};
+  return `<span class="pill ${m[s]||'pill-closed'}">${l[s]||s}</span>`;
+}
+function renderOpenTable(m){
+  const open=(state.trades||[]).filter(t=>t.status==='open').sort((a,b)=>{
+    return((Number(b.currentMarketValue)||0)-capDeployed(b))-((Number(a.currentMarketValue)||0)-capDeployed(a));
+  });
+  document.getElementById('open-count').textContent=`${open.length} position${open.length!==1?'s':''}`;
+  document.getElementById('open-stats').innerHTML=
+    `<span>Capital: <strong>${USD2(m.capInOpen)}</strong></span>
+     <span class="dot">Â·</span>
+     <span>MV: <strong class="c-teal">${USD2(m.openMV)}</strong></span>
+     <span class="dot">Â·</span>
+     <span>Unrealized: <strong class="${m.unrealPnL>=0?'c-green':'c-red'}">${m.unrealPnL>=0?'+':''}${USD2(m.unrealPnL)}</strong></span>`;
+
+  const el=document.getElementById('open-table');
+  if(!open.length){ el.innerHTML='<div class="empty-msg">No open positions â€” all capital sitting in cash.</div>'; return; }
+
+  const rows=open.map(t=>{
+    const cap=capDeployed(t);
+    const mv=Number(t.currentMarketValue)||0;
+    const unr=mv>0?mv-cap:0;
+    const unrPct=cap>0&&mv>0?(unr/cap)*100:null;
+    const live=mv>0;
+    const uc=!live?'c-slate':unr>0?'c-green':unr<0?'c-red':'c-slate';
+    const pc=!live?'c-slate':unrPct>0?'c-green':unrPct<0?'c-red':'c-slate';
+    return `<tr class="open-tr">
+      <td><strong>${e(t.ticker)}</strong></td>
+      <td>${stratPill(t.strategy)}</td>
+      <td class="r mono">${t.entryPrice?'$'+Number(t.entryPrice).toFixed(2):'â€”'}</td>
+      <td class="r mono">${t.contracts||'â€”'}</td>
+      <td class="r mono">${cap>0?USD2(cap):'â€”'}</td>
+      <td class="r mono">${mv>0?USD2(mv):'â€”'}</td>
+      <td class="r mono bold ${uc}">${live?(unr>=0?'+':'')+USD2(unr):'â€”'}</td>
+      <td class="r mono ${pc}" style="font-size:12px">${unrPct!==null?(unrPct>=0?'+':'')+PCT(unrPct):'â€”'}</td>
+      <td class="mono c-slate" style="font-size:12px">${t.date}</td>
+      <td><div style="display:flex;justify-content:flex-end;gap:4px">
+        <button class="btn-icon edit" onclick="openTradeForm('${t.id}')">âœï¸</button>
+        <button class="btn-icon del"  onclick="delTrade('${t.id}')">ðŸ—‘ï¸</button>
+      </div></td>
+    </tr>`;
+  }).join('');
+
+  el.innerHTML=`<div class="tbl-wrap"><table>
+    <thead><tr>
+      <th>Ticker</th><th>Strategy</th>
+      <th class="r">Entry</th><th class="r">Qty</th><th class="r">Capital</th>
+      <th class="r">Current MV</th><th class="r">Unrealized P&amp;L</th><th class="r">%</th>
+      <th>Opened</th><th></th>
+    </tr></thead><tbody>${rows}</tbody>
+  </table></div>`;
+}
+function renderHistTable(m){
+  const hist=(state.trades||[]).filter(t=>t.status==='closed'||t.status==='historical').sort((a,b)=>new Date(b.date)-new Date(a.date));
+  const totalR=hist.reduce((s,t)=>s+(Number(t.pnl)||0),0);
+  const w=hist.filter(t=>Number(t.pnl)>0).length;
+  const l=hist.filter(t=>Number(t.pnl)<0).length;
+  const wr=hist.length>0?(w/hist.length)*100:0;
+
+  document.getElementById('hist-count').textContent=`${hist.length} closed`;
+  document.getElementById('hist-stats').innerHTML=
+    `<span>Realized: <strong class="${totalR>=0?'c-green':'c-red'}">${totalR>=0?'+':''}${USD2(totalR)}</strong></span>
+     <span class="dot">Â·</span>
+     <span>W/L: <strong class="c-green">${w}</strong>/<strong class="c-red">${l}</strong></span>
+     <span class="dot">Â·</span>
+     <span>Win Rate: <strong>${PCT(wr)}</strong></span>`;
+
+  const el=document.getElementById('hist-table');
+  if(!hist.length){ el.innerHTML='<div class="empty-msg">No closed trades yet.</div>'; return; }
+
+  const rows=hist.map(t=>{
+    const r=roi(t); const p=Number(t.pnl)||0;
+    const pc=p>0?'c-green':p<0?'c-red':'c-slate';
+    const rc=r>0?'c-green':r<0?'c-red':'c-slate';
+    return `<tr>
+      <td><strong>${e(t.ticker)}</strong></td>
+      <td>${stratPill(t.strategy)}</td>
+      <td class="r mono c-slate" style="font-size:12px">${t.entryPrice?'$'+Number(t.entryPrice).toFixed(2):'â€”'}</td>
+      <td class="r mono c-slate" style="font-size:12px">${t.exitPrice?'$'+Number(t.exitPrice).toFixed(2):'â€”'}</td>
+      <td class="r mono c-slate" style="font-size:12px">${t.contracts||'â€”'}</td>
+      <td class="r mono bold ${pc}">${p!==0?(p>0?'+':'')+USD2(p):'â€”'}</td>
+      <td class="r mono ${rc}" style="font-size:12px">${r!==null?(r>=0?'+':'')+PCT(r):'â€”'}</td>
+      <td class="mono c-slate" style="font-size:12px">${t.date}</td>
+      <td>${statusPill(t.status)}</td>
+      <td><div style="display:flex;justify-content:flex-end;gap:4px">
+        <button class="btn-icon edit" onclick="openTradeForm('${t.id}')">âœï¸</button>
+        <button class="btn-icon del"  onclick="delTrade('${t.id}')">ðŸ—‘ï¸</button>
+      </div></td>
+    </tr>`;
+  }).join('');
+
+  el.innerHTML=`<div class="tbl-wrap"><table>
+    <thead><tr>
+      <th>Ticker</th><th>Strategy</th>
+      <th class="r">Entry</th><th class="r">Exit</th><th class="r">Qty</th>
+      <th class="r">Realized P&amp;L</th><th class="r">ROI</th>
+      <th>Date</th><th>Type</th><th></th>
+    </tr></thead><tbody>${rows}</tbody>
+  </table></div>`;
+}
+
+function renderAiCtx(m){
+  document.getElementById('ai-ctx').textContent=`Context: ${m.closedCount} closed Â· ${m.openCount} open Â· ${USD2(m.acctVal)} Â· Day ${m.daysElapsed}/${SPRINT_LEN}`;
+}
+
+function e(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function delTrade(id){
+  if(!confirm('Delete this trade?'))return;
+  state.trades=state.trades.filter(t=>t.id!==id);
+  save(); render();
+}
+function upsertTrade(t){
+  const i=state.trades.findIndex(x=>x.id===t.id);
+  if(i>=0)state.trades[i]=t; else state.trades.push(t);
+  save(); render();
+}
+function openModal(html){ document.getElementById('modal-box').innerHTML=html; document.getElementById('overlay').classList.add('open'); }
+function closeModal(){ document.getElementById('overlay').classList.remove('open'); }
+function overlayClick(ev){ if(ev.target===document.getElementById('overlay'))closeModal(); }
+let TF = null;
+
+function openTradeForm(id){
+  const ex = id ? state.trades.find(t=>t.id===id) : null;
+  TF = ex ? {...ex} : {
+    id:`trade-${Date.now()}`, date:toISO(new Date()), ticker:'', strategy:'Shares',
+    entryPrice:'', contracts:'', exitPrice:'', currentMarketValue:'',
+    currentPrice:0, pnl:'', notes:'', status:'open',
+  };
+  renderTF();
+}
+
+function renderTF(){
+  const f=TF;
+  const isOpen=f.status==='open';
+  const isClosed=f.status==='closed'||f.status==='historical';
+  const isShares=f.strategy==='Shares';
+  const m=isShares?1:100;
+  const cap=(Number(f.entryPrice)||0)*(Number(f.contracts)||0)*m;
+  const ql=isShares?'Shares':'Contracts';
+
+  const sOpts=STRATEGIES.map(s=>`<option value="${s}"${f.strategy===s?' selected':''}>${s}</option>`).join('');
+  const sBtns=[{k:'open',l:'Open'},{k:'closed',l:'Closed'},{k:'historical',l:'Historical Win'}]
+    .map(s=>`<button class="s-btn ${f.status===s.k?'on':'off'}" onclick="tfStatus('${s.k}')">${s.l}</button>`).join('');
+
+  openModal(`
+    <h3>${!f._edit?'Log New Trade':'Edit Trade'}</h3>
+    <div class="modal-sub" style="margin-bottom:16px"></div>
+
+    <div style="margin-bottom:16px">
+      <div class="f-label" style="margin-bottom:6px">Status</div>
+      <div class="status-btns">${sBtns}</div>
+    </div>
+
+    <div style="margin-bottom:16px">
+      <div class="f-label" style="margin-bottom:6px">Strategy *</div>
+      <select class="f-select" onchange="tfField('strategy',this.value)">${sOpts}</select>
+      <div class="strat-hint">${isShares?'âœ“ Shares â€” update Current Market Value manually for open positions.':'âœ“ Options â€” update Current Market Value manually (premiums vary by strike/expiry).'}</div>
+    </div>
+
+    <div class="form-grid">
+      <div class="fg">
+        <label class="f-label">Date</label>
+        <input class="f-input" type="date" value="${f.date}" onchange="tfField('date',this.value)" />
+      </div>
+      <div class="fg">
+        <label class="f-label">Ticker *</label>
+        <input class="f-input" type="text" value="${f.ticker}" placeholder="${isShares?'AAPL':'NVDA'}" oninput="tfField('ticker',this.value.toUpperCase())" />
+      </div>
+      <div class="fg">
+        <label class="f-label">${isShares?'Entry Price per Share ($)':'Entry Price per Contract ($)'}</label>
+        <input class="f-input" type="number" value="${f.entryPrice}" placeholder="${isShares?'180.50':'2.25'}" oninput="tfFieldNoRender('entryPrice',this.value)" onchange="tfField('entryPrice',this.value)" />
+      </div>
+      <div class="fg">
+        <label class="f-label">${ql}</label>
+        <input class="f-input" type="number" value="${f.contracts}" placeholder="${isShares?'10':'5'}" oninput="tfFieldNoRender('contracts',this.value)" onchange="tfField('contracts',this.value)" />
+      </div>
+      <div class="cap-preview">Capital Deployed: <strong>${cap>0?USD2(cap):'â€”'}</strong><span style="color:#334155"> (Entry Ã— ${ql}${!isShares?' Ã— 100':''})</span></div>
+      ${isClosed?`
+      <div class="fg">
+        <label class="f-label">${isShares?'Exit Price / Share ($)':'Exit Price / Contract ($)'}</label>
+        <input class="f-input" type="number" value="${f.exitPrice||''}" placeholder="${isShares?'195.00':'3.85'}" oninput="tfFieldNoRender('exitPrice',this.value)" onchange="tfField('exitPrice',this.value)" />
+      </div>
+      <div class="fg">
+        <label class="f-label">P&amp;L (USD)</label>
+        <input class="f-input" type="number" value="${f.pnl||''}" placeholder="Auto-derives from exit" oninput="tfFieldNoRender('pnl',this.value)" />
+      </div>
+      <div class="fg full"><button class="derive-link" onclick="derivePnL()">Auto-derive P&amp;L from Entry Ã— Exit Ã— ${ql}</button></div>
+      `:''}
+      ${isOpen?`
+      <div class="fg full">
+        <label class="f-label">Current Market Value ($)</label>
+        <input class="f-input" type="number" value="${f.currentMarketValue||''}" placeholder="Update when you want to check unrealized P&L" oninput="tfFieldNoRender('currentMarketValue',this.value)" />
+      </div>
+      `:''}
+      <div class="fg full">
+        <label class="f-label">Notes</label>
+        <textarea class="ai-ta" style="min-height:60px" placeholder="Thesis, catalyst, exit rationale..." oninput="tfFieldNoRender('notes',this.value)">${e(f.notes||'')}</textarea>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveTF()" ${!f.ticker?'disabled':''}>Save Trade</button>
+    </div>
+  `);
+  TF._edit = true;
+}
+
+function tfStatus(s){ TF.status=s; renderTF(); }
+function tfField(k,v){ TF[k]=v; renderTF(); }
+function tfFieldNoRender(k,v){ TF[k]=v; }
+
+function derivePnL(){
+  const f=TF; const m=f.strategy==='Shares'?1:100;
+  const en=Number(f.entryPrice)||0, ex=Number(f.exitPrice)||0, c=Number(f.contracts)||0;
+  if(en>0&&ex>0&&c>0){ TF.pnl=((ex-en)*c*m).toFixed(2); renderTF(); }
+}
+
+function saveTF(){
+  if(!TF.ticker)return;
+  upsertTrade({
+    ...TF,
+    entryPrice:Number(TF.entryPrice)||0,
+    contracts:Number(TF.contracts)||0,
+    exitPrice:Number(TF.exitPrice)||0,
+    currentMarketValue:Number(TF.currentMarketValue)||0,
+    currentPrice:Number(TF.currentPrice)||0,
+    pnl:Number(TF.pnl)||0,
+  });
+  closeModal();
+}
+function openWithdrawModal(){ renderWD('',''); }
+
+function renderWD(amt,notes){
+  const m=metrics();
+  const wds=(state.withdrawals||[]);
+  const total=wds.reduce((s,w)=>s+(Number(w.amount)||0),0);
+  const sorted=[...wds].sort((a,b)=>new Date(b.date)-new Date(a.date));
+  const n=Number(amt)||0;
+  const proj=m.cashBal-n;
+  const today=toISO(new Date());
+
+  const hist=sorted.length===0
+    ?'<div class="empty-msg" style="padding:12px">No withdrawals recorded yet.</div>'
+    :`<div class="wd-scroll">${sorted.map(w=>`
+      <div class="wd-item">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="mono" style="font-size:12px;color:#94a3b8">${w.date}</span>
+            <span class="mono bold c-red">âˆ’${USD2(Number(w.amount)||0)}</span>
+          </div>
+          ${w.notes?`<div style="font-size:11px;color:#475569">${e(w.notes)}</div>`:''}
+        </div>
+        <button class="btn-icon del" onclick="delWD('${w.id}')">ðŸ—‘ï¸</button>
+      </div>`).join('')}</div>`;
+
+  openModal(`
+    <h3>â†“ Withdraw Cash</h3>
+    <p class="modal-sub">Record a cash withdrawal. This reduces your cash balance but does not affect trading P&amp;L or sprint progress.</p>
+
+    <div class="mono-box">
+      <div class="mono-row"><span style="color:#64748b">Current Cash</span><span class="c-teal">${USD2(m.cashBal)}</span></div>
+      <div class="mono-row"><span style="color:#64748b">âˆ’ Withdrawal</span><span class="c-red">${n>0?USD2(n):'â€”'}</span></div>
+      <div class="mono-row total"><span>= New Cash Balance</span><span class="${proj<0?'c-red':'c-gold'} bold">${USD2(proj)}</span></div>
+      ${proj<0?'<div style="font-size:11px;color:rgba(248,113,113,.8);margin-top:8px">âš  Withdrawal exceeds available cash</div>':''}
+    </div>
+
+    <div class="form-grid" style="margin-bottom:20px">
+      <div class="fg">
+        <label class="f-label">Amount (USD) *</label>
+        <input class="f-input" type="number" step="0.01" value="${amt}" id="wd-amt" placeholder="200.00" oninput="renderWD(this.value,document.getElementById('wd-notes')?.value||'')" />
+      </div>
+      <div class="fg">
+        <label class="f-label">Date *</label>
+        <input class="f-input" type="date" value="${today}" id="wd-date" />
+      </div>
+      <div class="fg full">
+        <label class="f-label">Notes (optional)</label>
+        <input class="f-input" type="text" value="${e(notes)}" id="wd-notes" placeholder="e.g., Weekend cash" />
+      </div>
+      <div class="fg full">
+        <button class="btn" style="width:100%;justify-content:center;background:rgba(239,68,68,.1);color:#fca5a5;border-color:rgba(239,68,68,.3)"
+          onclick="addWD()" ${!n?'disabled':''}>â†“ Record Withdrawal</button>
+      </div>
+    </div>
+
+    <div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <span class="f-label">Withdrawal History</span>
+        <span class="mono" style="font-size:12px;color:#475569">Total: <span class="c-red">${USD2(total)}</span></span>
+      </div>
+      ${hist}
+    </div>
+
+    <div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal()">Close</button></div>
+  `);
+}
+
+function addWD(){
+  const amt=Number(document.getElementById('wd-amt')?.value)||0;
+  const date=document.getElementById('wd-date')?.value||toISO(new Date());
+  const notes=(document.getElementById('wd-notes')?.value||'').trim();
+  if(!amt)return;
+  state.withdrawals=[...(state.withdrawals||[]),{id:`wd-${Date.now()}`,date,amount:amt,notes}];
+  save(); render(); renderWD('','');
+}
+function delWD(id){
+  state.withdrawals=(state.withdrawals||[]).filter(w=>w.id!==id);
+  save(); render(); renderWD('','');
+}
+function openReconcileModal(){
+  const m=metrics();
+  renderReconcile(m.cashBal.toFixed(2));
+}
+
+let REC_PREVIEW=[];
+
+function renderReconcile(targetCash){
+  const m=metrics();
+  const hist=state.trades.filter(t=>t.status==='historical'||t.status==='closed');
+  const open=state.trades.filter(t=>t.status==='open');
+  const capOpen=open.reduce((s,t)=>s+capDeployed(t),0);
+  const totalWD=(state.withdrawals||[]).reduce((s,w)=>s+(Number(w.amount)||0),0);
+  const tgt=Number(targetCash)||0;
+  const reqReal=tgt-m.startCap+capOpen+totalWD;
+  const curReal=hist.reduce((s,t)=>s+(Number(t.pnl)||0),0);
+  const delta=reqReal-curReal;
+  const absTotal=hist.reduce((s,t)=>s+Math.abs(Number(t.pnl)||0),0);
+
+  REC_PREVIEW=hist.map(t=>{
+    const old=Number(t.pnl)||0;
+    const nw=absTotal>0?old+delta*(Math.abs(old)/absTotal):old+(hist.length>0?delta/hist.length:0);
+    return{...t,oldPnl:old,newPnl:Number(nw.toFixed(2))};
+  });
+
+  const canApply=REC_PREVIEW.length>0&&Math.abs(delta)>0.009;
+
+  const prevHtml=REC_PREVIEW.length===0
+    ?'<div class="empty-msg" style="padding:12px">No historical or closed trades to adjust.</div>'
+    :REC_PREVIEW.map(p=>`<div class="preview-item">
+        <span style="font-weight:500;color:#e2e8f0">${e(p.ticker)} <span style="color:#64748b;font-weight:400">Â· ${e(p.strategy)}</span></span>
+        <div style="display:flex;align-items:center;gap:8px;font-family:ui-monospace,monospace;font-size:12px">
+          <span style="color:#64748b">${USD2(p.oldPnl)}</span>
+          <span style="color:#334155">â†’</span>
+          <span class="c-teal">${USD2(p.newPnl)}</span>
+        </div>
+      </div>`).join('');
+
+  openModal(`
+    <h3>âš–ï¸ Reconcile to Cash Balance</h3>
+    <p class="modal-sub">Enter your real broker cash balance. Historical P&amp;L will be proportionally adjusted so the dashboard matches your actual account.</p>
+
+    <div class="fg" style="margin-bottom:20px">
+      <label class="f-label">Target Cash Balance (USD)</label>
+      <input class="f-input" type="number" step="0.01" value="${targetCash}" oninput="renderReconcile(this.value)" style="font-size:17px;font-family:ui-monospace,monospace" />
+    </div>
+
+    <div class="mono-box">
+      <div class="mono-row"><span style="color:#64748b">Starting Capital</span><span style="color:#cbd5e1">${USD2(m.startCap)}</span></div>
+      <div class="mono-row"><span style="color:#64748b">+ Required Realized P&amp;L</span><span class="c-gold">${USD2(reqReal)}</span></div>
+      <div class="mono-row"><span style="color:#64748b">âˆ’ Capital in Open</span><span style="color:#cbd5e1">${USD2(capOpen)}</span></div>
+      <div class="mono-row"><span style="color:#64748b">âˆ’ Withdrawals</span><span style="color:#cbd5e1">${USD2(totalWD)}</span></div>
+      <div class="mono-row total"><span>= Target Cash</span><span class="c-teal">${USD2(tgt)}</span></div>
+    </div>
+
+    <div style="margin-bottom:20px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <span class="f-label">Proposed Adjustment</span>
+        <span class="mono" style="font-size:12px;${delta>=0?'color:#34d399':'color:#f87171'}">Delta: ${delta>=0?'+':''}${USD2(delta)}</span>
+      </div>
+      ${prevHtml}
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="applyReconcile()" ${!canApply?'disabled':''}>Apply Reconciliation</button>
+    </div>
+  `);
+}
+
+function applyReconcile(){
+  state.trades=state.trades.map(t=>{ const p=REC_PREVIEW.find(x=>x.id===t.id); return p?{...t,pnl:p.newPnl}:t; });
+  save(); render(); closeModal();
+}
+function openExportModal(){
+  const json=JSON.stringify(state,null,2);
+  openModal(`
+    <h3>ðŸ’¾ Export / Import State</h3>
+    <p class="modal-sub">Your data auto-saves to local storage each time you make a change. Use this to back up your state, transfer it to another device, or restore a previous snapshot by pasting JSON below and clicking Import.</p>
+    <textarea class="export-ta" id="export-ta">${e(json)}</textarea>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal()">Close</button>
+      <button class="btn btn-teal" onclick="importState()">â¬† Import JSON</button>
+      <button class="btn btn-primary" onclick="copyExport(this)">Copy to Clipboard</button>
+    </div>
+  `);
+}
+
+async function copyExport(btn){
+  try{
+    await navigator.clipboard.writeText(JSON.stringify(state,null,2));
+    btn.textContent='âœ“ Copied!';
+    setTimeout(()=>btn.textContent='Copy to Clipboard',2000);
+  }catch(err){}
+}
+
+function importState(){
+  try{
+    const raw=document.getElementById('export-ta')?.value||'';
+    const parsed=JSON.parse(raw);
+    if(!parsed.trades||!parsed.sprintStart)throw new Error('Invalid state format');
+    if(!parsed.withdrawals)parsed.withdrawals=[];
+    state=parsed; save(); render(); closeModal();
+  }catch(err){ alert('Import failed: '+err.message); }
+}
+function setAiMode(mode){
+  aiMode=mode;
+  document.getElementById('mode-idea').className=`mode-btn ${mode==='idea'?'on':'off'}`;
+  document.getElementById('mode-review').className=`mode-btn ${mode==='review'?'on':'off'}`;
+  const ta=document.getElementById('ai-input');
+  ta.placeholder=mode==='idea'
+    ?'e.g., Considering NVDA calls â€” earnings in 2 weeks, IV elevated. Options entry range and sizing?'
+    :'e.g., Review my ledger â€” biggest edge and biggest leak. One tactical adjustment.';
+  document.getElementById('ai-out').style.display='none';
+}
+
+function buildCtx(){
+  const m=metrics();
+  const trdStr=(state.trades||[]).sort((a,b)=>new Date(a.date)-new Date(b.date)).map(t=>{
+    const r=roi(t); const c=capDeployed(t);
+    const base=`${t.date} | ${t.ticker} | ${t.strategy||'n/a'} | ${String(t.status).toUpperCase()}`;
+    if(t.status==='open') return`${base} | Entry: ${t.entryPrice?'$'+t.entryPrice:'n/a'} | Qty: ${t.contracts||'n/a'} | Capital: ${c?USD2(c):'n/a'} | MV: ${t.currentMarketValue?USD2(Number(t.currentMarketValue)):'n/a'}`;
+    return`${base} | Entry: ${t.entryPrice?'$'+t.entryPrice:'n/a'} | Exit: ${t.exitPrice?'$'+t.exitPrice:'n/a'} | Qty: ${t.contracts||'n/a'} | P&L: ${USD2(Number(t.pnl)||0)} | ROI: ${r!==null?r.toFixed(1)+'%':'n/a'}`;
+  }).join('\n');
+  const wdStr=(state.withdrawals||[]).map(w=>`${w.date} | ${USD2(Number(w.amount)||0)}${w.notes?' Â· '+w.notes:''}`).join('\n');
+  return`SPRINT CONTEXT
+Starting Capital: ${USD(m.startCap)} | Target: ${USD(m.target)}
+Account Value: ${USD2(m.acctVal)} | Cash: ${USD2(m.cashBal)} | Open (MV): ${USD2(m.openMV)}
+Gross Realized P&L: ${USD2(m.realizedPnL)} | Total Fees: âˆ’${USD2(m.totalFees)} | Net Realized P&L: ${USD2(m.netRealizedPnL)} | Unrealized P&L: ${USD2(m.unrealPnL)} | Net Total P&L: ${USD2(m.netTotalPnL)}
+Total Withdrawals: ${USD2(m.totalWD)} | Account Return: ${PCT(m.acctReturn)}
+Progress to Target: ${PCT(m.progressPct)} (gross of withdrawals)
+Trading Day ${m.daysElapsed} of ${SPRINT_LEN} | ${m.daysLeft} trading days remaining
+Required daily gain: ${USD2(m.dailyRun)} | Win rate: ${PCT(m.winRate)} over ${m.closedCount} closed trades
+Trajectory: ${m.tLabel}
+
+LEDGER:
+${trdStr||'(no trades yet)'}
+
+WITHDRAWALS:
+${wdStr||'(none)'}`;
+}
+
+async function runAI(){
+  const input=document.getElementById('ai-input').value.trim();
+  if(!input)return;
+  const btn=document.getElementById('ai-btn');
+  const out=document.getElementById('ai-out');
+  btn.disabled=true;
+  btn.innerHTML='<span class="spin"></span> Analyzing...';
+  out.style.display='block';
+  out.textContent='Analyzing your sprint data...';
+
+  try{
+    if(!window.cowork || typeof window.cowork.askClaude !== 'function'){
+      out.textContent='âš ï¸ AI Analyst is only available in the Cowork desktop app. Open this dashboard on your desktop to use this feature.';
+      return;
+    }
+    const sys=aiMode==='idea'
+      ?`You are an Executive Performance Analyst for a professional financial advisor running a 120-trading-day options sprint. Crisp, data-driven, executive tone. CRITICAL: Always provide OPTIONS entry price ranges (e.g., "$2.10â€“$2.40 per contract"), NEVER underlying stock prices. Structure: (1) Thesis â€” one sentence, (2) Options Entry Range â€” specific contract pricing with strike/expiry, (3) Position Sizing â€” contracts aligned to current account value, (4) Risk/Reward â€” max loss and target P&L USD, (5) Stop/Exit â€” mechanical rule. Under 220 words.`
+      :`You are an Executive Performance Analyst reviewing a 120-trading-day options sprint. Direct, quantitative, pattern-focused. Identify: (1) strongest edge visible in data, (2) clearest risk or leak, (3) one tactical adjustment. Use specific numbers. Under 220 words. No disclaimers.`;
+    const fullPrompt=`${sys}\n\n${buildCtx()}\n\n---\n\nRequest: ${input}`;
+    const result=await window.cowork.askClaude(fullPrompt,[]);
+    out.textContent=result||'No response generated.';
+  }catch(err){
+    out.textContent=`Error: ${err.message}`;
+  }finally{
+    btn.disabled=false;
+    btn.innerHTML='âœ¨ Run Analysis';
+  }
+}
+
+document.getElementById('cfg-capital').addEventListener('change',ev=>{ state.startingCapital=Number(ev.target.value)||0; save(); render(); });
+document.getElementById('cfg-start').addEventListener('change',ev=>{ state.sprintStart=ev.target.value; save(); render(); });
+document.getElementById('cfg-target').addEventListener('change',ev=>{ state.target=Number(ev.target.value)||0; save(); render(); });
+
+load();
+</script>
+</body>
+</html>
